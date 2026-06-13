@@ -3,235 +3,621 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="EconSphere — Portal integral para economistas: mercados en vivo, conversor de monedas, comparador de países, portfolio, alertas y análisis con IA.">
 <title>EconSphere — Portal para Economistas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0D0E13;--ivory:#F7F4EE;--slate:#1C2340;--gold:#C9973A;--gold-lt:#E8C06A;--teal:#0E7B7A;--teal-lt:#14AFAD;--rose:#C0392B;--mist:#E8EAF0;--mono:'IBM Plex Mono',monospace;--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--sans);background:var(--ivory);color:var(--ink);overflow-x:hidden;}
-::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--ivory);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;background:rgba(13,14,19,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,151,58,0.25);}
-.nav-logo{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:var(--ivory);text-decoration:none;}
-.nav-logo span{color:var(--gold);}
-.nav-links{display:flex;gap:.25rem;list-style:none;}
-.nav-links a{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:rgba(247,244,238,.65);text-decoration:none;padding:.4rem .75rem;border-radius:4px;transition:color .2s,background .2s;}
-.nav-links a:hover{color:var(--gold);background:rgba(201,151,58,.1);}
-.nav-cta{color:var(--ink)!important;background:var(--gold)!important;}
-@media(max-width:900px){.nav-links{display:none;}nav{padding:0 1.25rem;}}
-#hero{position:relative;min-height:100vh;display:flex;align-items:center;background:var(--slate);overflow:hidden;}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,151,58,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(201,151,58,.07) 1px,transparent 1px);background-size:60px 60px;animation:gridDrift 30s linear infinite;}
-@keyframes gridDrift{from{transform:translate(0,0)}to{transform:translate(60px,60px)}}
-.hero-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(14,123,122,.25) 0%,transparent 65%);top:-100px;right:-150px;pointer-events:none;}
-.hero-content{position:relative;max-width:1200px;margin:0 auto;padding:6rem 2.5rem 4rem;width:100%;}
-.hero-eyebrow{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-lt);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;}
-.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--teal-lt);}
-.hero-title{font-family:var(--serif);font-size:clamp(3.2rem,7vw,7rem);font-weight:900;line-height:1;color:var(--ivory);letter-spacing:-.03em;max-width:780px;margin-bottom:1.5rem;}
-.hero-title em{font-style:italic;color:var(--gold);display:block;}
-.hero-sub{font-size:1.1rem;font-weight:300;color:rgba(247,244,238,.65);max-width:540px;line-height:1.7;margin-bottom:2.5rem;}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
-.hero-live{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;color:var(--teal-lt);margin-top:2rem;}
-.live-dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.btn{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1.8rem;border-radius:4px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:.5rem;}
-.btn:hover{transform:translateY(-2px);}
-.btn-primary{background:var(--gold);color:var(--ink);box-shadow:0 4px 20px rgba(201,151,58,.35);}
-.btn-primary:hover{box-shadow:0 6px 28px rgba(201,151,58,.5);}
-.btn-outline{background:transparent;color:var(--ivory);border:1px solid rgba(247,244,238,.3);}
-.btn-outline:hover{background:rgba(247,244,238,.07);border-color:var(--ivory);}
-.ticker-wrap{background:var(--ink);border-top:1px solid rgba(201,151,58,.3);border-bottom:1px solid rgba(201,151,58,.3);overflow:hidden;padding:.55rem 0;}
-.ticker-track{display:flex;width:max-content;animation:ticker 35s linear infinite;}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.ticker-item{font-family:var(--mono);font-size:.75rem;color:rgba(247,244,238,.55);padding:0 2.5rem;white-space:nowrap;display:flex;align-items:center;gap:.5rem;}
-.ticker-item .up{color:#22c55e;}.ticker-item .down{color:var(--rose);}.ticker-item .label{color:var(--gold);font-weight:500;}
-section{padding:6rem 2.5rem;}
-.container{max-width:1200px;margin:0 auto;}
-.section-header{margin-bottom:3.5rem;}
-.section-eyebrow{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem;}
-.section-eyebrow::before{content:'▸';color:var(--gold);}
-.section-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.1;color:var(--ink);letter-spacing:-.02em;}
-.section-title-light{color:var(--ivory);}
-#mercados{background:var(--ivory);}
-.markets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;}
-.market-card{background:white;border:1px solid var(--mist);border-radius:8px;padding:1.5rem;position:relative;overflow:hidden;transition:box-shadow .2s,transform .2s;}
-.market-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
-.market-card.up::before{background:#16a34a;}.market-card.down::before{background:var(--rose);}
-.market-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.1);transform:translateY(-3px);}
-.mkt-label{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:.5rem;}
-.mkt-price{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--ink);line-height:1;}
-.mkt-change{font-family:var(--mono);font-size:.78rem;font-weight:500;margin-top:.4rem;}
-.mkt-change.pos{color:#16a34a;}.mkt-change.neg{color:var(--rose);}
-.status-bar{display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;background:rgba(14,123,122,.1);border:1px solid rgba(14,123,122,.2);border-radius:6px;margin-bottom:2rem;font-family:var(--mono);font-size:.72rem;color:var(--teal);}
-.status-bar .dot{width:6px;height:6px;background:var(--teal-lt);border-radius:50%;animation:pulse 2s infinite;}
-#indicadores{background:var(--slate);padding:5rem 2.5rem;}
-.indicators-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;}
-.ind-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:1.5rem;transition:background .2s;}
-.ind-card:hover{background:rgba(255,255,255,.07);}
-.ind-label{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,244,238,.45);margin-bottom:.5rem;}
-.ind-value{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--ivory);line-height:1;}
-.ind-year{font-family:var(--mono);font-size:.68rem;color:rgba(247,244,238,.35);margin-top:.3rem;}
-.ind-sparkline{display:flex;align-items:flex-end;gap:3px;height:36px;margin-top:.75rem;}
-.ind-bar{flex:1;background:var(--gold);opacity:.5;border-radius:2px 2px 0 0;min-height:4px;transition:opacity .2s;}
-.ind-bar:hover{opacity:1;}
-#noticias{background:var(--ivory);}
-.news-grid{display:grid;grid-template-columns:2fr 1fr;gap:2rem;}
-@media(max-width:900px){.news-grid{grid-template-columns:1fr;}}
-.news-featured{background:white;border:1px solid var(--mist);border-radius:10px;padding:2rem;display:flex;flex-direction:column;gap:1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);}
-.news-tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(14,123,122,.1);padding:.25rem .6rem;border-radius:3px;display:inline-block;width:fit-content;}
-.news-featured-title{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1.25;text-decoration:none;}
-.news-featured-title:hover{color:var(--teal);}
-.news-featured-desc{font-size:.92rem;color:#666;line-height:1.65;}
-.news-featured-meta{font-family:var(--mono);font-size:.68rem;color:#bbb;margin-top:auto;padding-top:1rem;border-top:1px solid var(--mist);}
-.news-sidebar{display:flex;flex-direction:column;gap:1rem;}
-.news-item{background:white;border:1px solid var(--mist);border-left:2px solid var(--gold);border-radius:6px;padding:1rem;display:flex;flex-direction:column;gap:.4rem;text-decoration:none;transition:border-left-color .2s,box-shadow .2s;}
-.news-item:hover{border-left-color:var(--teal);box-shadow:0 4px 16px rgba(0,0,0,.07);}
-.news-item-title{font-size:.88rem;font-weight:500;color:var(--ink);line-height:1.4;}
-.news-item-meta{font-family:var(--mono);font-size:.64rem;color:#bbb;}
-.news-loading{font-family:var(--mono);font-size:.8rem;color:#bbb;text-align:center;padding:3rem;grid-column:1/-1;}
-#analisis{background:var(--ink);}
-.analysis-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-@media(max-width:900px){.analysis-wrap{grid-template-columns:1fr;}}
-.analysis-intro p{color:rgba(247,244,238,.6);font-size:.95rem;line-height:1.7;margin-top:1rem;margin-bottom:2rem;}
-.analysis-form{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:2rem;}
-.field{margin-bottom:1.25rem;}
-.field label{display:block;font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,244,238,.5);margin-bottom:.4rem;}
-.field input,.field select{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:.7rem 1rem;font-family:var(--mono);font-size:.9rem;color:var(--ivory);outline:none;transition:border-color .2s;-webkit-appearance:none;}
-.field input:focus,.field select:focus{border-color:var(--gold);}
-.field select option{background:var(--ink);}
-.analysis-result{margin-top:1.5rem;padding:1.5rem;background:rgba(201,151,58,.08);border:1px solid rgba(201,151,58,.2);border-radius:8px;display:none;}
-.analysis-result.show{display:block;}
-.analysis-result-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
-.analysis-result-text{font-size:.92rem;color:rgba(247,244,238,.8);line-height:1.7;white-space:pre-wrap;}
-.analysis-loading{display:none;font-family:var(--mono);font-size:.78rem;color:var(--teal-lt);margin-top:1rem;}
-.analysis-loading.show{display:flex;align-items:center;gap:.5rem;}
-#calculadoras{background:var(--ivory);}
-.calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-@media(max-width:900px){.calc-wrap{grid-template-columns:1fr;}}
-.calc-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
-.calc-tab{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:.45rem .9rem;border-radius:4px;border:1px solid var(--mist);color:#888;background:white;cursor:pointer;transition:all .2s;}
-.calc-tab.active,.calc-tab:hover{background:var(--gold);color:var(--ink);border-color:var(--gold);}
-.calc-form{background:white;border:1px solid var(--mist);border-radius:10px;padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.04);}
-.calc-form .field label{color:#888;}
-.calc-form .field input,.calc-form .field select{background:var(--ivory);border:1px solid var(--mist);color:var(--ink);}
-.calc-form .field input:focus{border-color:var(--gold);}
-.calc-panel{display:none;}.calc-panel.active{display:block;}
-.calc-result{margin-top:1.5rem;padding:1.25rem;background:#fffbf0;border:1px solid rgba(201,151,58,.3);border-radius:6px;display:none;}
-.calc-result.show{display:block;}
-.calc-result-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
-.calc-result-value{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--ink);letter-spacing:-.02em;}
-.calc-result-detail{font-size:.82rem;color:#777;margin-top:.5rem;line-height:1.5;}
-#glosario{background:var(--slate);}
-.glosario-search-wrap{margin-bottom:2rem;position:relative;}
-.glosario-search{width:100%;max-width:520px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:.85rem 1rem .85rem 2.8rem;font-family:var(--sans);font-size:.95rem;color:var(--ivory);outline:none;transition:border-color .2s;}
-.glosario-search:focus{border-color:var(--gold);}
-.glosario-search::placeholder{color:rgba(247,244,238,.3);}
-.search-icon{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:rgba(247,244,238,.4);pointer-events:none;}
-.glosario-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;}
-.glosario-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:1.25rem;transition:background .2s;}
-.glosario-item:hover{background:rgba(255,255,255,.07);}
-.glosario-term{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--gold);margin-bottom:.4rem;}
-.glosario-def{font-size:.85rem;color:rgba(247,244,238,.65);line-height:1.6;}
-.glosario-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-lt);background:rgba(20,175,173,.12);padding:.15rem .4rem;border-radius:3px;margin-bottom:.5rem;display:inline-block;}
-#recursos{background:var(--mist);}
-.resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem;}
-.resource-card{border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:1.5rem;background:white;display:flex;flex-direction:column;gap:.6rem;text-decoration:none;transition:box-shadow .2s,transform .2s;}
-.resource-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.09);transform:translateY(-2px);}
-.resource-type{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;border-radius:3px;display:inline-block;width:fit-content;}
-.resource-type.paper{background:#fef9ec;color:#92650a;}.resource-type.tool{background:#f0fdf4;color:#15803d;}.resource-type.data{background:#eff6ff;color:#1d4ed8;}.resource-type.media{background:#fef2f2;color:#b91c1c;}
-.resource-name{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);}
-.resource-desc{font-size:.82rem;color:#777;line-height:1.55;}
-.resource-link{font-family:var(--mono);font-size:.68rem;color:var(--teal);margin-top:auto;padding-top:.5rem;}
-footer{background:var(--ink);color:rgba(247,244,238,.45);padding:4rem 2.5rem 2rem;}
-.footer-inner{max-width:1200px;margin:0 auto;}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:2rem;}
-@media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr;}}
-@media(max-width:600px){.footer-top{grid-template-columns:1fr;}section{padding:4rem 1.25rem;}}
-.footer-brand-name{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:var(--ivory);margin-bottom:.75rem;}
-.footer-brand-name span{color:var(--gold);}
-.footer-tagline{font-size:.85rem;line-height:1.65;margin-bottom:1.25rem;}
-.footer-col-title{font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
-.footer-links{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
-.footer-links a{font-size:.85rem;color:rgba(247,244,238,.45);text-decoration:none;transition:color .2s;}
-.footer-links a:hover{color:var(--ivory);}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
-.footer-copy{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;}
-.fade-in{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease;}
-.fade-in.visible{opacity:1;transform:translateY(0);}
+/* ════════ TOKENS ════════ */
+:root {
+  --navy:       #0B1120;
+  --navy-mid:   #131D30;
+  --navy-card:  #1A2640;
+  --navy-deep:  #080D18;
+  --rim:        #243352;
+  --rim-lt:     #2E4068;
+  --electric:   #3B82F6;
+  --electric-lt:#60A5FA;
+  --e-glow:     rgba(59,130,246,0.16);
+  --gold:       #D4A843;
+  --gold-lt:    #ECC96A;
+  --g-glow:     rgba(212,168,67,0.16);
+  --teal:       #0ECECE;
+  --teal-dim:   #0AA8A8;
+  --t-glow:     rgba(14,206,206,0.14);
+  --red:        #F87171;
+  --green:      #34D399;
+  --white:      #F0F4FF;
+  --muted:      rgba(240,244,255,0.55);
+  --dim:        rgba(240,244,255,0.28);
+  --mono:  'IBM Plex Mono', monospace;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+body { font-family: var(--sans); background: var(--navy); color: var(--white); overflow-x: hidden; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--teal), var(--electric)); border-radius: 3px; }
+::selection { background: var(--gold); color: var(--navy); }
+button { font-family: inherit; }
+input, select { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+/* ════════ SCROLL PROGRESS ════════ */
+#scroll-progress { position: fixed; top: 0; left: 0; height: 2px; width: 0%; z-index: 200; background: linear-gradient(90deg, var(--teal), var(--electric), var(--gold)); transition: width 0.1s linear; }
+
+/* ════════ NAV ════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 60px;
+  background: rgba(8,13,24,0.85); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--rim);
+}
+.nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 900; text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; }
+.nav-logo .e { color: var(--teal); } .nav-logo .s { color: var(--gold); } .nav-logo .r { color: var(--white); }
+.nav-links { display: flex; gap: 0.1rem; list-style: none; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a { font-family: var(--mono); font-size: 0.64rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 0.4rem 0.6rem; border-radius: 4px; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+.nav-links a:hover, .nav-links a.active { color: var(--teal); background: var(--t-glow); }
+.nav-links a.cta { color: var(--navy); background: linear-gradient(135deg, var(--gold), var(--gold-lt)); font-weight: 700; }
+.menu-btn { display: none; background: none; border: 1px solid var(--rim); color: var(--white); border-radius: 5px; padding: 0.4rem 0.7rem; font-size: 1rem; cursor: pointer; }
+@media (max-width: 1080px) {
+  .nav-links { position: fixed; top: 60px; left: 0; right: 0; background: rgba(8,13,24,0.97); backdrop-filter: blur(18px); flex-direction: column; padding: 1rem 2rem 1.5rem; gap: 0.3rem; display: none; border-bottom: 1px solid var(--rim); }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: 0.78rem; padding: 0.6rem 0.8rem; }
+  .menu-btn { display: block; }
+}
+
+/* ════════ HERO ════════ */
+#hero { position: relative; min-height: 92vh; display: flex; align-items: center; background: radial-gradient(ellipse 80% 60% at 70% 20%, #101B33 0%, var(--navy) 60%); overflow: hidden; }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--e-glow) 1px, transparent 1px), linear-gradient(90deg, var(--e-glow) 1px, transparent 1px); background-size: 54px 54px; mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%); animation: gridDrift 30s linear infinite; }
+@keyframes gridDrift { from { transform: translate(0,0);} to { transform: translate(54px,54px);} }
+.blob { position: absolute; pointer-events: none; border-radius: 50%; filter: blur(10px); }
+.blob-t { width: 560px; height: 560px; background: radial-gradient(circle, rgba(14,206,206,0.12), transparent 65%); top: -90px; right: -110px; }
+.blob-g { width: 420px; height: 420px; background: radial-gradient(circle, rgba(212,168,67,0.1), transparent 65%); bottom: -60px; left: -70px; }
+.hero-inner { position: relative; max-width: 1200px; margin: 0 auto; padding: 7rem 2rem 4rem; width: 100%; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center; }
+@media (max-width: 980px) { .hero-inner { grid-template-columns: 1fr; } }
+.hero-eyebrow { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.7rem; }
+.hero-eyebrow::before { content: ''; width: 26px; height: 1px; background: var(--teal); }
+.hero-title { font-family: var(--serif); font-size: clamp(3.2rem, 6.5vw, 6.4rem); font-weight: 900; line-height: 0.97; letter-spacing: -0.03em; margin-bottom: 1.4rem; }
+.hero-title .l1 { color: var(--white); display: block; }
+.hero-title .l2 { font-style: italic; display: block; background: linear-gradient(95deg, var(--gold) 10%, var(--teal) 90%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding-bottom: 0.08em; }
+.hero-sub { font-size: 1.02rem; font-weight: 300; color: var(--muted); max-width: 480px; line-height: 1.75; margin-bottom: 2.2rem; }
+.hero-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+.hero-status { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.66rem; margin-top: 2rem; color: var(--dim); }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-on  { background: var(--teal); box-shadow: 0 0 8px var(--teal); animation: pulse 2s infinite; }
+.dot-wait{ background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: pulse 1s infinite; }
+.dot-off { background: var(--red); }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.45;transform:scale(0.85)} }
+
+/* HERO SNAPSHOT PANEL */
+.hero-panel { background: rgba(19,29,48,0.7); border: 1px solid var(--rim); border-radius: 14px; padding: 1.4rem; backdrop-filter: blur(8px); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+.hero-panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.hero-panel-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+.hero-rows { display: flex; flex-direction: column; }
+.hero-row { display: flex; align-items: center; justify-content: space-between; padding: 0.62rem 0.2rem; border-bottom: 1px solid rgba(36,51,82,0.5); font-family: var(--mono); font-size: 0.78rem; }
+.hero-row:last-child { border-bottom: none; }
+.hero-row .sym { color: var(--gold); font-weight: 600; }
+.hero-row .px { color: var(--white); }
+.hero-row .chg { font-size: 0.7rem; font-weight: 600; min-width: 64px; text-align: right; }
+.chg.pos { color: var(--teal); } .chg.neg { color: var(--red); }
+
+/* ════════ BUTTONS ════════ */
+.btn { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.8rem 1.6rem; border-radius: 6px; border: none; cursor: pointer; text-decoration: none; transition: transform 0.15s, box-shadow 0.2s, background 0.2s, color 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn-teal  { background: linear-gradient(135deg, var(--teal-dim), var(--teal)); color: var(--navy); box-shadow: 0 4px 18px var(--t-glow); }
+.btn-gold  { background: linear-gradient(135deg, var(--gold), var(--gold-lt)); color: var(--navy); box-shadow: 0 4px 18px var(--g-glow); }
+.btn-ghost { background: transparent; color: var(--white); border: 1px solid var(--rim-lt); }
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); background: var(--t-glow); }
+.btn-sm { padding: 0.55rem 1rem; font-size: 0.66rem; }
+.btn-danger { background: transparent; border: 1px solid rgba(248,113,113,0.4); color: var(--red); }
+.btn-danger:hover { background: rgba(248,113,113,0.1); }
+
+/* ════════ TICKER ════════ */
+.ticker-wrap { background: var(--navy-deep); border-top: 1px solid var(--rim); border-bottom: 1px solid var(--rim); overflow: hidden; padding: 0.55rem 0; }
+.ticker-track { display: flex; width: max-content; animation: tick 40s linear infinite; }
+.ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+@keyframes tick { from { transform: translateX(0);} to { transform: translateX(-50%);} }
+.tk { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); padding: 0 2.2rem; white-space: nowrap; display: flex; align-items: center; gap: 0.5rem; }
+.tk .lbl { color: var(--gold); font-weight: 600; }
+.tk .up { color: var(--teal); } .tk .down { color: var(--red); }
+
+/* ════════ SECTIONS ════════ */
+section { padding: 5.5rem 2rem; }
+.container { max-width: 1200px; margin: 0 auto; }
+.sec-head { margin-bottom: 3rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+.eyebrow { font-family: var(--mono); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.55rem; }
+.eyebrow::before { content: ''; width: 18px; height: 2px; border-radius: 1px; display: block; background: currentColor; }
+.ey-teal { color: var(--teal); } .ey-gold { color: var(--gold); } .ey-electric { color: var(--electric-lt); }
+.sec-title { font-family: var(--serif); font-size: clamp(1.9rem, 3.6vw, 2.8rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
+.sec-note { font-family: var(--mono); font-size: 0.66rem; color: var(--dim); max-width: 320px; line-height: 1.6; }
+.bg-mid  { background: var(--navy-mid); }
+.bg-deep { background: var(--navy-deep); }
+
+/* ════════ CARDS ════════ */
+.card { background: var(--navy-card); border: 1px solid var(--rim); border-radius: 12px; transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s; }
+.card:hover { transform: translateY(-3px); }
+.c-teal:hover { border-color: var(--teal); box-shadow: 0 10px 34px var(--t-glow); }
+.c-gold:hover { border-color: var(--gold); box-shadow: 0 10px 34px var(--g-glow); }
+.c-electric:hover { border-color: var(--electric); box-shadow: 0 10px 34px var(--e-glow); }
+
+/* ════════ SKELETON ════════ */
+.skel { position: relative; overflow: hidden; background: rgba(36,51,82,0.45); border-radius: 5px; }
+.skel::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(240,244,255,0.08), transparent); animation: shimmer 1.4s infinite; }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+.badge-ref { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: var(--g-glow); border: 1px solid rgba(212,168,67,0.25); padding: 0.1rem 0.4rem; border-radius: 3px; vertical-align: middle; margin-left: 0.4rem; }
+
+/* STATUS BAR */
+.status-bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.65rem 1.05rem; background: var(--navy-mid); border: 1px solid var(--rim); border-left: 2px solid var(--teal); border-radius: 7px; margin-bottom: 2rem; font-family: var(--mono); font-size: 0.68rem; color: var(--teal); flex-wrap: wrap; }
+.status-bar.warn { border-left-color: var(--gold); color: var(--gold); }
+
+/* ════════ MERCADOS ════════ */
+.markets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1.15rem; }
+.mkt { position: relative; overflow: hidden; padding: 1.35rem; cursor: default; }
+.mkt-label { font-family: var(--mono); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); margin-bottom: 0.55rem; display: flex; align-items: center; }
+.mkt-price { font-family: var(--serif); font-size: 1.85rem; font-weight: 700; line-height: 1; color: var(--white); min-height: 1.85rem; }
+.mkt-chg { font-family: var(--mono); font-size: 0.73rem; font-weight: 600; margin-top: 0.4rem; min-height: 1rem; }
+.mkt-chg.pos { color: var(--teal); } .mkt-chg.neg { color: var(--red); }
+.spark { display: flex; align-items: flex-end; gap: 2px; height: 30px; margin-top: 0.7rem; }
+.spark i { flex: 1; border-radius: 2px 2px 0 0; min-height: 3px; opacity: 0.5; transition: opacity 0.2s; display: block; }
+.spark i:hover { opacity: 1; }
+.spark .pos { background: var(--teal); } .spark .neg { background: var(--red); }
+
+/* ════════ CONVERSOR ════════ */
+.conv-wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.6rem; align-items: start; }
+@media (max-width: 920px) { .conv-wrap { grid-template-columns: 1fr; } }
+.conv-card { padding: 1.8rem; }
+.conv-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.8rem; align-items: end; margin-bottom: 1.2rem; }
+@media (max-width: 560px) { .conv-row { grid-template-columns: 1fr; } .swap-btn { justify-self: center; transform: rotate(90deg);} }
+.field { margin-bottom: 1.1rem; }
+.field label { display: block; font-family: var(--mono); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); margin-bottom: 0.4rem; }
+.field input, .field select { width: 100%; background: var(--navy); border: 1px solid var(--rim); border-radius: 6px; padding: 0.72rem 0.95rem; font-family: var(--mono); font-size: 0.9rem; color: var(--white); outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; appearance: none; }
+.field input:focus, .field select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--t-glow); }
+.field select option { background: var(--navy-mid); }
+.swap-btn { background: var(--navy); border: 1px solid var(--rim-lt); color: var(--teal); border-radius: 8px; width: 42px; height: 42px; cursor: pointer; font-size: 1rem; transition: border-color 0.2s, transform 0.2s; flex-shrink: 0; margin-bottom: 0.05rem; }
+.swap-btn:hover { border-color: var(--teal); transform: rotate(180deg); }
+.conv-result { padding: 1.3rem; background: var(--navy-mid); border: 1px solid var(--gold); border-left: 3px solid var(--gold); border-radius: 8px; margin-top: 0.5rem; }
+.conv-result-val { font-family: var(--serif); font-size: 2.3rem; font-weight: 700; color: var(--gold-lt); letter-spacing: -0.02em; line-height: 1.1; word-break: break-all; }
+.conv-result-rate { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 0.5rem; }
+.conv-popular { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+@media (max-width: 560px) { .conv-popular { grid-template-columns: 1fr; } }
+.pair { padding: 1rem 1.1rem; display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 0.78rem; cursor: pointer; }
+.pair .p-name { color: var(--muted); }
+.pair .p-val { color: var(--teal); font-weight: 600; }
+
+/* ════════ COMPARADOR ════════ */
+.comp-controls { display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.9rem; align-items: end; margin-bottom: 2rem; max-width: 720px; }
+@media (max-width: 720px) { .comp-controls { grid-template-columns: 1fr; } }
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 1.15rem; }
+.comp-card { padding: 1.4rem; }
+.comp-metric { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+.comp-row { margin-bottom: 0.9rem; }
+.comp-row:last-child { margin-bottom: 0; }
+.comp-row-head { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.72rem; margin-bottom: 0.35rem; }
+.comp-row-head .country { color: var(--muted); }
+.comp-row-head .val { font-weight: 600; }
+.comp-track { height: 7px; background: rgba(36,51,82,0.6); border-radius: 4px; overflow: hidden; }
+.comp-fill { height: 100%; border-radius: 4px; width: 0%; transition: width 0.9s cubic-bezier(0.22,1,0.36,1); }
+.fill-a { background: linear-gradient(90deg, var(--teal-dim), var(--teal)); }
+.fill-b { background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
+.comp-legend { display: flex; gap: 1.4rem; margin-bottom: 1.6rem; font-family: var(--mono); font-size: 0.7rem; color: var(--muted); flex-wrap: wrap; }
+.legend-chip { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 0.4rem; vertical-align: -1px; }
+
+/* ════════ PORTFOLIO ════════ */
+.pf-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 2.4rem; align-items: start; }
+@media (max-width: 920px) { .pf-wrap { grid-template-columns: 1fr; } }
+.pf-form { padding: 1.7rem; }
+.pf-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-bottom: 1.4rem; }
+@media (max-width: 560px) { .pf-summary { grid-template-columns: 1fr; } }
+.pf-stat { padding: 1rem 1.1rem; }
+.pf-stat-l { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); margin-bottom: 0.35rem; }
+.pf-stat-v { font-family: var(--serif); font-size: 1.55rem; font-weight: 700; }
+.pf-table { width: 100%; border-collapse: collapse; }
+.pf-table th { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--rim); }
+.pf-table td { font-family: var(--mono); font-size: 0.78rem; padding: 0.75rem 0.7rem; border-bottom: 1px solid rgba(36,51,82,0.4); }
+.pf-table tr:last-child td { border-bottom: none; }
+.pf-empty { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); text-align: center; padding: 2.5rem 1rem; line-height: 1.7; }
+.x-btn { background: none; border: none; color: var(--red); cursor: pointer; font-size: 0.95rem; padding: 0.2rem 0.4rem; border-radius: 4px; opacity: 0.6; transition: opacity 0.2s, background 0.2s; }
+.x-btn:hover { opacity: 1; background: rgba(248,113,113,0.1); }
+
+/* ════════ ALERTAS ════════ */
+.al-wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 2.4rem; align-items: start; }
+@media (max-width: 920px) { .al-wrap { grid-template-columns: 1fr; } }
+.al-form { padding: 1.7rem; }
+.al-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.al-item { padding: 1rem 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; border-left: 3px solid var(--rim-lt); }
+.al-item.hit { border-left-color: var(--teal); background: linear-gradient(90deg, rgba(14,206,206,0.08), var(--navy-card)); }
+.al-info { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
+.al-info .sym { color: var(--gold); font-weight: 600; }
+.al-state { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.22rem 0.55rem; border-radius: 4px; }
+.al-state.hit { color: var(--teal); background: var(--t-glow); border: 1px solid rgba(14,206,206,0.3); }
+.al-state.wait { color: var(--dim); background: rgba(36,51,82,0.4); border: 1px solid var(--rim); }
+
+/* ════════ CALENDARIO ════════ */
+.cal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.cal-item { padding: 1.2rem 1.3rem; display: flex; gap: 1.1rem; align-items: flex-start; }
+.cal-date { flex-shrink: 0; text-align: center; min-width: 56px; padding: 0.5rem 0.4rem; background: var(--navy); border: 1px solid var(--rim); border-radius: 8px; }
+.cal-day { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; line-height: 1; }
+.cal-mon { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-top: 0.2rem; }
+.cal-body h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; line-height: 1.35; }
+.cal-body p { font-size: 0.76rem; color: var(--muted); line-height: 1.55; }
+.cal-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 3px; display: inline-block; margin-bottom: 0.45rem; }
+.ct-fed { color: var(--electric-lt); background: var(--e-glow); }
+.ct-arg { color: var(--gold); background: var(--g-glow); }
+.ct-eu  { color: var(--teal); background: var(--t-glow); }
+.ct-dato{ color: #C084FC; background: rgba(192,132,252,0.12); }
+.imp { display: inline-flex; gap: 2px; margin-left: 0.45rem; vertical-align: 1px; }
+.imp i { width: 5px; height: 5px; border-radius: 50%; background: var(--rim-lt); display: block; }
+.imp.high i { background: var(--red); }
+.imp.med i:nth-child(-n+2) { background: var(--gold); }
+.imp.low i:first-child { background: var(--teal); }
+
+/* ════════ NOTICIAS ════════ */
+.news-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.6rem; }
+@media (max-width: 900px) { .news-grid { grid-template-columns: 1fr; } }
+.news-feat { padding: 2rem; display: flex; flex-direction: column; gap: 0.95rem; }
+.news-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); background: var(--t-glow); border: 1px solid rgba(14,206,206,0.2); padding: 0.22rem 0.55rem; border-radius: 3px; width: fit-content; }
+.news-feat-title { font-family: var(--serif); font-size: 1.45rem; font-weight: 700; color: var(--white); line-height: 1.28; text-decoration: none; transition: color 0.2s; }
+.news-feat-title:hover { color: var(--teal); }
+.news-feat-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+.news-meta { font-family: var(--mono); font-size: 0.63rem; color: var(--dim); margin-top: auto; padding-top: 0.9rem; border-top: 1px solid var(--rim); }
+.news-side { display: flex; flex-direction: column; gap: 0.9rem; }
+.news-item { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; text-decoration: none; border-left: 2px solid var(--gold); transition: border-left-color 0.2s; }
+.news-item:hover { border-left-color: var(--teal); }
+.news-item-t { font-size: 0.85rem; font-weight: 500; color: var(--white); line-height: 1.42; }
+.news-item-m { font-family: var(--mono); font-size: 0.6rem; color: var(--dim); }
+.news-loading { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); text-align: center; padding: 3rem; grid-column: 1/-1; line-height: 1.8; }
+
+/* ════════ ANALISIS ════════ */
+.an-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2.8rem; align-items: start; }
+@media (max-width: 900px) { .an-wrap { grid-template-columns: 1fr; } }
+.an-intro p { color: var(--muted); font-size: 0.94rem; line-height: 1.75; margin-top: 1rem; margin-bottom: 1.6rem; }
+.an-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.05em; padding: 0.4rem 0.8rem; border-radius: 20px; border: 1px solid var(--rim-lt); color: var(--muted); background: transparent; cursor: pointer; transition: all 0.2s; }
+.chip:hover { border-color: var(--teal); color: var(--teal); background: var(--t-glow); }
+.an-form { padding: 1.9rem; }
+.an-result { margin-top: 1.4rem; padding: 1.4rem; background: var(--navy); border: 1px solid var(--teal-dim); border-left: 3px solid var(--teal); border-radius: 8px; display: none; }
+.an-result.show { display: block; }
+.an-result-l { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.7rem; }
+.an-result-t { font-size: 0.89rem; color: var(--muted); line-height: 1.75; white-space: pre-wrap; }
+.an-loading { display: none; font-family: var(--mono); font-size: 0.72rem; color: var(--teal); margin-top: 1rem; align-items: center; gap: 0.5rem; }
+.an-loading.show { display: flex; }
+
+/* ════════ CALCULADORAS ════════ */
+.calc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2.8rem; align-items: start; }
+@media (max-width: 900px) { .calc-wrap { grid-template-columns: 1fr; } }
+.calc-intro p { color: var(--muted); font-size: 0.94rem; line-height: 1.75; margin-top: 1rem; margin-bottom: 1.8rem; }
+.calc-tabs { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+.calc-tab { font-family: var(--mono); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.45rem 0.85rem; border-radius: 5px; border: 1px solid var(--rim); color: var(--dim); background: transparent; cursor: pointer; transition: all 0.2s; }
+.calc-tab.active, .calc-tab:hover { background: linear-gradient(135deg, var(--teal-dim), var(--teal)); color: var(--navy); border-color: var(--teal); font-weight: 700; }
+.calc-form { padding: 1.9rem; }
+.calc-form .field input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--g-glow); }
+.calc-panel { display: none; }
+.calc-panel.active { display: block; }
+.calc-result { margin-top: 1.3rem; padding: 1.2rem; background: var(--navy-mid); border: 1px solid var(--gold); border-left: 3px solid var(--gold); border-radius: 7px; display: none; }
+.calc-result.show { display: block; }
+.cr-l { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
+.cr-v { font-family: var(--serif); font-size: 2.1rem; font-weight: 700; color: var(--gold-lt); letter-spacing: -0.02em; }
+.cr-d { font-size: 0.8rem; color: var(--muted); margin-top: 0.45rem; line-height: 1.55; }
+
+/* ════════ GLOSARIO ════════ */
+.glo-search-wrap { margin-bottom: 1.8rem; position: relative; max-width: 520px; }
+.glo-search { width: 100%; background: var(--navy); border: 1px solid var(--rim); border-radius: 7px; padding: 0.85rem 1rem 0.85rem 2.7rem; font-family: var(--sans); font-size: 0.92rem; color: var(--white); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.glo-search:focus { border-color: var(--electric); box-shadow: 0 0 0 3px var(--e-glow); }
+.glo-search::placeholder { color: var(--dim); }
+.s-icon { position: absolute; left: 0.95rem; top: 50%; transform: translateY(-50%); color: var(--dim); pointer-events: none; font-size: 0.85rem; }
+.glo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 0.95rem; }
+.glo-item { padding: 1.2rem; cursor: default; }
+.glo-term { font-family: var(--serif); font-size: 1.02rem; font-weight: 700; color: var(--electric-lt); margin-bottom: 0.35rem; }
+.glo-def { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+.glo-tag { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.14rem 0.42rem; border-radius: 3px; margin-bottom: 0.45rem; display: inline-block; }
+.tg-macro { color: var(--teal); background: var(--t-glow); }
+.tg-micro { color: var(--gold); background: var(--g-glow); }
+.tg-fin   { color: var(--electric-lt); background: var(--e-glow); }
+.tg-pol   { color: #C084FC; background: rgba(192,132,252,0.12); }
+.tg-otro  { color: #86EFAC; background: rgba(134,239,172,0.1); }
+
+/* ════════ RECURSOS ════════ */
+.res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 1.15rem; }
+.res-card { padding: 1.45rem; display: flex; flex-direction: column; gap: 0.55rem; text-decoration: none; }
+.res-type { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 3px; width: fit-content; border: 1px solid; }
+.rt-data  { color: var(--electric-lt); background: var(--e-glow); border-color: rgba(59,130,246,0.25); }
+.rt-paper { color: var(--gold); background: var(--g-glow); border-color: rgba(212,168,67,0.25); }
+.rt-tool  { color: var(--teal); background: var(--t-glow); border-color: rgba(14,206,206,0.25); }
+.res-name { font-family: var(--serif); font-size: 0.98rem; font-weight: 700; color: var(--white); }
+.res-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+.res-link { font-family: var(--mono); font-size: 0.64rem; color: var(--teal); margin-top: auto; padding-top: 0.5rem; }
+
+/* ════════ FOOTER ════════ */
+footer { background: var(--navy-deep); border-top: 1px solid var(--rim); padding: 4rem 2rem 2rem; }
+.f-inner { max-width: 1200px; margin: 0 auto; }
+.f-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.6rem; padding-bottom: 2.6rem; border-bottom: 1px solid var(--rim); margin-bottom: 1.8rem; }
+@media (max-width: 900px) { .f-top { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .f-top { grid-template-columns: 1fr; } section { padding: 4rem 1.2rem; } nav { padding: 0 1.2rem; } }
+.f-logo { font-family: var(--serif); font-size: 1.35rem; font-weight: 900; margin-bottom: 0.7rem; }
+.f-tag { font-size: 0.83rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.9rem; max-width: 320px; }
+.f-backend { font-family: var(--mono); font-size: 0.6rem; color: var(--dim); }
+.f-col-t { font-family: var(--mono); font-size: 0.63rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+.f-links { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.f-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.f-links a:hover { color: var(--teal); }
+.f-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; }
+.f-copy { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em; color: var(--dim); }
+
+/* ════════ REVEAL ════════ */
+.rv { opacity: 0; transform: translateY(16px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+
+/* ════════ TOAST ════════ */
+#toast { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy-card); border: 1px solid var(--teal); color: var(--white); font-family: var(--mono); font-size: 0.74rem; padding: 0.75rem 1.3rem; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 300; box-shadow: 0 10px 40px rgba(0,0,0,0.5); max-width: 90vw; }
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
+<div id="scroll-progress"></div>
+<div id="toast"></div>
+
+<!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">Econ<span>Sphere</span></a>
-  <ul class="nav-links">
+  <a href="#hero" class="nav-logo"><span class="e">E</span><span class="r">con</span><span class="s">S</span><span class="r">phere</span></a>
+  <button class="menu-btn" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menú">☰</button>
+  <ul class="nav-links" id="navlinks">
     <li><a href="#mercados">Mercados</a></li>
-    <li><a href="#indicadores">Indicadores</a></li>
+    <li><a href="#conversor">Conversor</a></li>
+    <li><a href="#comparador">Comparador</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#alertas">Alertas</a></li>
+    <li><a href="#calendario">Calendario</a></li>
     <li><a href="#noticias">Noticias</a></li>
-    <li><a href="#analisis">Análisis IA</a></li>
+    <li><a href="#analisis">IA</a></li>
     <li><a href="#calculadoras">Calculadoras</a></li>
     <li><a href="#glosario">Glosario</a></li>
-    <li><a href="#analisis" class="nav-cta">Analizar</a></li>
+    <li><a href="#analisis" class="cta">Analizar</a></li>
   </ul>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-grid"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Datos en tiempo real · Backend conectado</div>
-    <h1 class="hero-title">La economía<br><em>en perspectiva.</em></h1>
-    <p class="hero-sub">Cotizaciones en vivo, indicadores macro del Banco Mundial, noticias económicas y análisis con IA — todo conectado a tu backend en Railway.</p>
-    <div class="hero-actions">
-      <a href="#mercados" class="btn btn-primary">▸ Ver mercados</a>
-      <a href="#analisis" class="btn btn-outline">Análisis IA</a>
+  <div class="blob blob-t"></div>
+  <div class="blob blob-g"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Portal para economistas · v2.0</div>
+      <h1 class="hero-title"><span class="l1">La economía</span><span class="l2">en perspectiva.</span></h1>
+      <p class="hero-sub">Mercados en vivo, conversor de monedas, comparador de países, portfolio personal, alertas de precio y análisis con IA — en un solo lugar.</p>
+      <div class="hero-actions">
+        <a href="#mercados" class="btn btn-teal">▸ Ver mercados</a>
+        <a href="#portfolio" class="btn btn-gold">Mi portfolio</a>
+        <a href="#analisis" class="btn btn-ghost">Análisis IA</a>
+      </div>
+      <div class="hero-status" id="backend-status">
+        <span class="dot dot-wait" id="status-dot"></span>
+        <span id="status-text">Conectando con el backend…</span>
+      </div>
     </div>
-    <div class="hero-live"><span class="live-dot"></span>Backend: econhub-backend-production.up.railway.app</div>
+    <div class="hero-panel rv">
+      <div class="hero-panel-head">
+        <span class="hero-panel-title">Pulso del mercado</span>
+        <span class="hero-panel-title" id="panel-time"></span>
+      </div>
+      <div class="hero-rows" id="hero-rows">
+        <div class="hero-row"><span class="sym">S&P 500</span><span class="px skel" style="width:70px;height:14px"></span><span class="chg"></span></div>
+        <div class="hero-row"><span class="sym">NASDAQ</span><span class="px skel" style="width:70px;height:14px"></span><span class="chg"></span></div>
+        <div class="hero-row"><span class="sym">Bitcoin</span><span class="px skel" style="width:70px;height:14px"></span><span class="chg"></span></div>
+        <div class="hero-row"><span class="sym">Oro</span><span class="px skel" style="width:70px;height:14px"></span><span class="chg"></span></div>
+        <div class="hero-row"><span class="sym">USD/ARS</span><span class="px skel" style="width:70px;height:14px"></span><span class="chg"></span></div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- TICKER -->
 <div class="ticker-wrap"><div class="ticker-track" id="ticker"></div></div>
 
+<!-- MERCADOS -->
 <section id="mercados">
   <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-eyebrow">Datos en vivo · Yahoo Finance</div>
-      <h2 class="section-title">Mercados</h2>
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-teal">Datos en vivo · Yahoo Finance</div>
+        <h2 class="sec-title">Mercados</h2>
+      </div>
+      <p class="sec-note">Si el backend está despertando, se muestran valores de referencia marcados con «ref.» hasta que lleguen los datos en vivo.</p>
     </div>
-    <div class="status-bar" id="markets-status"><span class="dot"></span>Cargando cotizaciones…</div>
+    <div class="status-bar" id="mkt-status"><span class="dot dot-wait"></span>Despertando el backend de Railway…</div>
     <div class="markets-grid" id="markets-grid"></div>
   </div>
 </section>
 
-<section id="indicadores">
+<!-- CONVERSOR -->
+<section id="conversor" class="bg-mid">
   <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-eyebrow" style="color:var(--teal-lt)">Banco Mundial</div>
-      <h2 class="section-title section-title-light">Indicadores Macroeconómicos</h2>
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-gold">160+ monedas · Tasas del día</div>
+        <h2 class="sec-title">Conversor de Monedas</h2>
+      </div>
     </div>
-    <div class="indicators-grid" id="indicators-grid"></div>
+    <div class="conv-wrap">
+      <div class="conv-card card c-gold rv">
+        <div class="field"><label>Monto</label><input type="number" id="cv-amount" value="100" min="0" step="any"></div>
+        <div class="conv-row">
+          <div class="field" style="margin-bottom:0"><label>De</label><select id="cv-from"></select></div>
+          <button class="swap-btn" onclick="swapCurrencies()" title="Invertir" aria-label="Invertir monedas">⇄</button>
+          <div class="field" style="margin-bottom:0"><label>A</label><select id="cv-to"></select></div>
+        </div>
+        <button class="btn btn-gold" style="width:100%" onclick="convert()">Convertir</button>
+        <div class="conv-result" id="cv-result" style="display:none">
+          <div class="conv-result-val" id="cv-val"></div>
+          <div class="conv-result-rate" id="cv-rate"></div>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="eyebrow ey-teal" style="margin-bottom:1rem">Pares populares · 1 USD =</div>
+        <div class="conv-popular" id="cv-popular">
+          <div class="pair card"><span class="p-name">ARS · Peso argentino</span><span class="p-val skel" style="width:60px;height:13px"></span></div>
+          <div class="pair card"><span class="p-name">EUR · Euro</span><span class="p-val skel" style="width:60px;height:13px"></span></div>
+          <div class="pair card"><span class="p-name">BRL · Real brasileño</span><span class="p-val skel" style="width:60px;height:13px"></span></div>
+          <div class="pair card"><span class="p-name">CLP · Peso chileno</span><span class="p-val skel" style="width:60px;height:13px"></span></div>
+          <div class="pair card"><span class="p-name">MXN · Peso mexicano</span><span class="p-val skel" style="width:60px;height:13px"></span></div>
+          <div class="pair card"><span class="p-name">JPY · Yen japonés</span><span class="p-val skel" style="width:60px;height:13px"></span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- COMPARADOR -->
+<section id="comparador">
+  <div class="container">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-electric">Banco Mundial · Lado a lado</div>
+        <h2 class="sec-title">Comparador de Países</h2>
+      </div>
+      <p class="sec-note">Datos oficiales más recientes del Banco Mundial. Algunas series llegan con uno o dos años de rezago.</p>
+    </div>
+    <div class="comp-controls rv">
+      <div class="field" style="margin-bottom:0"><label>País A</label>
+        <select id="comp-a">
+          <option value="AR" selected>Argentina</option><option value="BR">Brasil</option><option value="CL">Chile</option><option value="CN">China</option><option value="DE">Alemania</option><option value="ES">España</option><option value="IN">India</option><option value="JP">Japón</option><option value="MX">México</option><option value="US">Estados Unidos</option><option value="UY">Uruguay</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:0"><label>País B</label>
+        <select id="comp-b">
+          <option value="AR">Argentina</option><option value="BR" selected>Brasil</option><option value="CL">Chile</option><option value="CN">China</option><option value="DE">Alemania</option><option value="ES">España</option><option value="IN">India</option><option value="JP">Japón</option><option value="MX">México</option><option value="US">Estados Unidos</option><option value="UY">Uruguay</option>
+        </select>
+      </div>
+      <button class="btn btn-teal" onclick="runCompare()">Comparar</button>
+    </div>
+    <div class="comp-legend rv">
+      <span><span class="legend-chip" style="background:var(--teal)"></span><span id="legend-a">Argentina</span></span>
+      <span><span class="legend-chip" style="background:var(--gold)"></span><span id="legend-b">Brasil</span></span>
+    </div>
+    <div class="comp-grid" id="comp-grid"></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="bg-mid">
+  <div class="container">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-gold">Guardado en tu navegador</div>
+        <h2 class="sec-title">Portfolio Personal</h2>
+      </div>
+      <p class="sec-note">Tus posiciones se guardan localmente en este navegador. Nada se envía a ningún servidor.</p>
+    </div>
+    <div class="pf-wrap">
+      <div class="pf-form card c-gold rv">
+        <div class="field"><label>Ticker</label><input type="text" id="pf-ticker" placeholder="Ej: AAPL, BTC-USD, GGAL" style="text-transform:uppercase"></div>
+        <div class="field"><label>Cantidad</label><input type="number" id="pf-qty" placeholder="Ej: 10" min="0" step="any"></div>
+        <div class="field"><label>Precio de compra (USD, opcional)</label><input type="number" id="pf-cost" placeholder="Ej: 180.50" min="0" step="any"></div>
+        <button class="btn btn-gold" style="width:100%" onclick="addPosition()">+ Agregar posición</button>
+      </div>
+      <div class="rv">
+        <div class="pf-summary">
+          <div class="pf-stat card"><div class="pf-stat-l">Valor total</div><div class="pf-stat-v" style="color:var(--gold-lt)" id="pf-total">$0</div></div>
+          <div class="pf-stat card"><div class="pf-stat-l">Resultado</div><div class="pf-stat-v" id="pf-pnl">—</div></div>
+          <div class="pf-stat card"><div class="pf-stat-l">Posiciones</div><div class="pf-stat-v" style="color:var(--teal)" id="pf-count">0</div></div>
+        </div>
+        <div class="card" style="overflow-x:auto">
+          <table class="pf-table" id="pf-table">
+            <thead><tr><th>Ticker</th><th>Cant.</th><th>Precio</th><th>Valor</th><th>P&L</th><th></th></tr></thead>
+            <tbody id="pf-body">
+              <tr><td colspan="6" class="pf-empty">Todavía no agregaste posiciones.<br>Sumá tu primer activo desde el formulario.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALERTAS -->
+<section id="alertas">
+  <div class="container">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-teal">Se revisan al abrir la página</div>
+        <h2 class="sec-title">Alertas de Precio</h2>
+      </div>
+      <p class="sec-note">Definí un precio objetivo. Cada vez que abras EconSphere, se compara contra la cotización actual y se marca si se alcanzó.</p>
+    </div>
+    <div class="al-wrap">
+      <div class="al-form card c-teal rv">
+        <div class="field"><label>Ticker</label><input type="text" id="al-ticker" placeholder="Ej: AAPL, BTC-USD" style="text-transform:uppercase"></div>
+        <div class="field"><label>Condición</label>
+          <select id="al-dir"><option value="above">Sube por encima de</option><option value="below">Baja por debajo de</option></select>
+        </div>
+        <div class="field"><label>Precio objetivo (USD)</label><input type="number" id="al-target" placeholder="Ej: 250" min="0" step="any"></div>
+        <button class="btn btn-teal" style="width:100%" onclick="addAlert()">+ Crear alerta</button>
+      </div>
+      <div class="al-list rv" id="al-list">
+        <div class="card" style="padding:2.2rem;text-align:center"><span class="pf-empty" style="padding:0">Sin alertas activas.<br>Creá la primera desde el formulario.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDARIO -->
+<section id="calendario" class="bg-mid">
+  <div class="container">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-electric">Próximos eventos clave</div>
+        <h2 class="sec-title">Calendario Económico</h2>
+      </div>
+      <p class="sec-note">Fechas estimadas según el cronograma habitual de cada organismo. Verificá la fecha exacta en la fuente oficial.</p>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</section>
+
+<!-- NOTICIAS -->
 <section id="noticias">
   <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-eyebrow">NewsAPI · En vivo</div>
-      <h2 class="section-title">Noticias Económicas</h2>
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-teal">NewsAPI · En vivo</div>
+        <h2 class="sec-title">Noticias Económicas</h2>
+      </div>
     </div>
-    <div class="news-grid" id="news-container"><div class="news-loading">Cargando noticias…</div></div>
+    <div class="news-grid" id="news-container">
+      <div class="news-loading">Cargando noticias desde el backend…</div>
+    </div>
   </div>
 </section>
 
-<section id="analisis">
+<!-- ANALISIS IA -->
+<section id="analisis" class="bg-deep">
   <div class="container">
-    <div class="analysis-wrap">
-      <div class="analysis-intro fade-in">
-        <div class="section-eyebrow" style="color:var(--gold)">Claude · Tiempo real</div>
-        <h2 class="section-title section-title-light">Análisis IA</h2>
-        <p>Ingresá un ticker y Claude analiza los datos reales del mercado con contexto macroeconómico profundo.</p>
+    <div class="an-wrap">
+      <div class="an-intro rv">
+        <div class="eyebrow ey-teal">Claude · Datos reales del mercado</div>
+        <h2 class="sec-title">Análisis IA</h2>
+        <p>Ingresá un ticker y Claude analiza la cotización real con contexto macroeconómico. Probá con uno de estos:</p>
+        <div class="an-chips">
+          <button class="chip" onclick="setTicker('AAPL')">AAPL · Apple</button>
+          <button class="chip" onclick="setTicker('MSFT')">MSFT · Microsoft</button>
+          <button class="chip" onclick="setTicker('BTC-USD')">BTC-USD · Bitcoin</button>
+          <button class="chip" onclick="setTicker('GGAL')">GGAL · Galicia</button>
+          <button class="chip" onclick="setTicker('YPF')">YPF</button>
+          <button class="chip" onclick="setTicker('GC=F')">GC=F · Oro</button>
+        </div>
       </div>
-      <div class="analysis-form fade-in">
-        <div class="field"><label>Ticker o activo</label><input type="text" id="ai-ticker" placeholder="Ej: AAPL, GGAL, BTC-USD" value="AAPL"></div>
+      <div class="an-form card c-teal rv">
+        <div class="field"><label>Ticker o activo</label><input type="text" id="ai-ticker" value="AAPL" style="text-transform:uppercase"></div>
         <div class="field"><label>Tipo de análisis</label>
           <select id="ai-type">
             <option value="fundamental">Análisis fundamental</option>
@@ -247,257 +633,706 @@ footer{background:var(--ink);color:rgba(247,244,238,.45);padding:4rem 2.5rem 2re
             <option value="largo">Largo plazo (años)</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="runAnalysis()" style="width:100%">▸ Generar análisis</button>
-        <div class="analysis-loading" id="analysis-loading"><span class="live-dot"></span>Claude está analizando…</div>
-        <div class="analysis-result" id="analysis-result">
-          <div class="analysis-result-label">Análisis generado por Claude</div>
-          <div class="analysis-result-text" id="analysis-text"></div>
+        <button class="btn btn-teal" style="width:100%" onclick="runAnalysis()">▸ Generar análisis</button>
+        <div class="an-loading" id="an-loading"><span class="dot dot-on"></span>Claude está analizando — puede tardar hasta 30 segundos…</div>
+        <div class="an-result" id="an-result">
+          <div class="an-result-l">Análisis generado por Claude</div>
+          <div class="an-result-t" id="an-text"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- CALCULADORAS -->
 <section id="calculadoras">
   <div class="container">
     <div class="calc-wrap">
-      <div class="fade-in">
-        <div class="section-eyebrow">Herramientas</div>
-        <h2 class="section-title">Calculadoras Financieras</h2>
-        <p style="color:#666;font-size:.95rem;line-height:1.7;margin-top:1rem;margin-bottom:2rem">Valor presente, inflación, elasticidad, CAGR y PIB per cápita.</p>
+      <div class="calc-intro rv">
+        <div class="eyebrow ey-gold">Herramientas cuantitativas</div>
+        <h2 class="sec-title">Calculadoras Financieras</h2>
+        <p>Valor presente, inflación proyectada, elasticidad precio, CAGR y PIB per cápita.</p>
         <div class="calc-tabs">
           <button class="calc-tab active" onclick="switchCalc('vp',event)">Valor Presente</button>
-          <button class="calc-tab" onclick="switchCalc('inflacion',event)">Inflación</button>
-          <button class="calc-tab" onclick="switchCalc('elasticidad',event)">Elasticidad</button>
+          <button class="calc-tab" onclick="switchCalc('inf',event)">Inflación</button>
+          <button class="calc-tab" onclick="switchCalc('el',event)">Elasticidad</button>
           <button class="calc-tab" onclick="switchCalc('cagr',event)">CAGR</button>
           <button class="calc-tab" onclick="switchCalc('pib',event)">PIB per cápita</button>
         </div>
       </div>
-      <div class="calc-form fade-in">
+      <div class="calc-form card c-gold rv">
         <div class="calc-panel active" id="panel-vp">
-          <div class="field"><label>Valor Futuro ($)</label><input type="number" id="vp-fv" value="1000000"></div>
+          <div class="field"><label>Valor futuro ($)</label><input type="number" id="vp-fv" value="1000000"></div>
           <div class="field"><label>Tasa anual (%)</label><input type="number" id="vp-r" value="8"></div>
           <div class="field"><label>Años</label><input type="number" id="vp-n" value="10"></div>
-          <button class="btn btn-primary" onclick="calcVP()" style="width:100%">Calcular</button>
-          <div class="calc-result" id="result-vp"><div class="calc-result-label">Valor Presente</div><div class="calc-result-value" id="result-vp-val"></div><div class="calc-result-detail" id="result-vp-det"></div></div>
+          <button class="btn btn-gold" style="width:100%" onclick="calcVP()">Calcular</button>
+          <div class="calc-result" id="r-vp"><div class="cr-l">Valor presente</div><div class="cr-v" id="r-vp-v"></div><div class="cr-d" id="r-vp-d"></div></div>
         </div>
-        <div class="calc-panel" id="panel-inflacion">
-          <div class="field"><label>Precio original ($)</label><input type="number" id="inf-p" value="1000"></div>
+        <div class="calc-panel" id="panel-inf">
+          <div class="field"><label>Precio actual ($)</label><input type="number" id="inf-p" value="1000"></div>
           <div class="field"><label>Inflación anual (%)</label><input type="number" id="inf-r" value="4.5"></div>
           <div class="field"><label>Años</label><input type="number" id="inf-n" value="5"></div>
-          <button class="btn btn-primary" onclick="calcInflacion()" style="width:100%">Calcular</button>
-          <div class="calc-result" id="result-inf"><div class="calc-result-label">Precio proyectado</div><div class="calc-result-value" id="result-inf-val"></div><div class="calc-result-detail" id="result-inf-det"></div></div>
+          <button class="btn btn-gold" style="width:100%" onclick="calcInf()">Calcular</button>
+          <div class="calc-result" id="r-inf"><div class="cr-l">Precio proyectado</div><div class="cr-v" id="r-inf-v"></div><div class="cr-d" id="r-inf-d"></div></div>
         </div>
-        <div class="calc-panel" id="panel-elasticidad">
-          <div class="field"><label>Variación % cantidad</label><input type="number" id="el-q" value="-15"></div>
-          <div class="field"><label>Variación % precio</label><input type="number" id="el-p" value="10"></div>
-          <button class="btn btn-primary" onclick="calcElasticidad()" style="width:100%">Calcular</button>
-          <div class="calc-result" id="result-el"><div class="calc-result-label">Elasticidad precio</div><div class="calc-result-value" id="result-el-val"></div><div class="calc-result-detail" id="result-el-det"></div></div>
+        <div class="calc-panel" id="panel-el">
+          <div class="field"><label>Variación % de la cantidad demandada</label><input type="number" id="el-q" value="-15"></div>
+          <div class="field"><label>Variación % del precio</label><input type="number" id="el-p" value="10"></div>
+          <button class="btn btn-gold" style="width:100%" onclick="calcEl()">Calcular</button>
+          <div class="calc-result" id="r-el"><div class="cr-l">Elasticidad precio de la demanda</div><div class="cr-v" id="r-el-v"></div><div class="cr-d" id="r-el-d"></div></div>
         </div>
         <div class="calc-panel" id="panel-cagr">
-          <div class="field"><label>Valor inicial</label><input type="number" id="cagr-vi" value="5000"></div>
-          <div class="field"><label>Valor final</label><input type="number" id="cagr-vf" value="12000"></div>
-          <div class="field"><label>Años</label><input type="number" id="cagr-n" value="7"></div>
-          <button class="btn btn-primary" onclick="calcCAGR()" style="width:100%">Calcular</button>
-          <div class="calc-result" id="result-cagr"><div class="calc-result-label">CAGR</div><div class="calc-result-value" id="result-cagr-val"></div><div class="calc-result-detail" id="result-cagr-det"></div></div>
+          <div class="field"><label>Valor inicial ($)</label><input type="number" id="cg-vi" value="5000"></div>
+          <div class="field"><label>Valor final ($)</label><input type="number" id="cg-vf" value="12000"></div>
+          <div class="field"><label>Años</label><input type="number" id="cg-n" value="7"></div>
+          <button class="btn btn-gold" style="width:100%" onclick="calcCagr()">Calcular</button>
+          <div class="calc-result" id="r-cg"><div class="cr-l">Crecimiento anual compuesto</div><div class="cr-v" id="r-cg-v"></div><div class="cr-d" id="r-cg-d"></div></div>
         </div>
         <div class="calc-panel" id="panel-pib">
           <div class="field"><label>PIB total (millones $)</label><input type="number" id="pib-t" value="450000"></div>
           <div class="field"><label>Población (miles)</label><input type="number" id="pib-p" value="45000"></div>
-          <button class="btn btn-primary" onclick="calcPIB()" style="width:100%">Calcular</button>
-          <div class="calc-result" id="result-pib"><div class="calc-result-label">PIB per cápita</div><div class="calc-result-value" id="result-pib-val"></div><div class="calc-result-detail" id="result-pib-det"></div></div>
+          <button class="btn btn-gold" style="width:100%" onclick="calcPib()">Calcular</button>
+          <div class="calc-result" id="r-pib"><div class="cr-l">PIB per cápita</div><div class="cr-v" id="r-pib-v"></div><div class="cr-d" id="r-pib-d"></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="glosario">
+<!-- GLOSARIO -->
+<section id="glosario" class="bg-mid">
   <div class="container">
-    <div class="section-header fade-in">
-      <div class="section-eyebrow" style="color:var(--teal-lt)">Referencia</div>
-      <h2 class="section-title section-title-light">Glosario Económico</h2>
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-electric">Referencia rápida</div>
+        <h2 class="sec-title">Glosario Económico</h2>
+      </div>
     </div>
-    <div class="glosario-search-wrap"><span class="search-icon">🔍</span><input type="text" class="glosario-search" id="glosario-search" placeholder="Buscar término…" oninput="filterGlosario()"></div>
-    <div class="glosario-grid" id="glosario-grid"></div>
+    <div class="glo-search-wrap rv">
+      <span class="s-icon">🔍</span>
+      <input type="text" class="glo-search" id="glo-search" placeholder="Buscar término… ej: inflación, CAGR, monopolio" oninput="filterGlo()">
+    </div>
+    <div class="glo-grid" id="glo-grid"></div>
   </div>
 </section>
 
+<!-- RECURSOS -->
 <section id="recursos">
   <div class="container">
-    <div class="section-header fade-in"><div class="section-eyebrow">Biblioteca</div><h2 class="section-title">Recursos Esenciales</h2></div>
-    <div class="resources-grid">
-      <a href="https://data.worldbank.org" target="_blank" class="resource-card fade-in"><span class="resource-type data">Data</span><div class="resource-name">Banco Mundial</div><div class="resource-desc">Datos abiertos de más de 200 países.</div><div class="resource-link">data.worldbank.org ↗</div></a>
-      <a href="https://fred.stlouisfed.org" target="_blank" class="resource-card fade-in"><span class="resource-type data">Data</span><div class="resource-name">FRED</div><div class="resource-desc">800,000+ series de datos económicos de la Fed.</div><div class="resource-link">fred.stlouisfed.org ↗</div></a>
-      <a href="https://www.imf.org/en/Data" target="_blank" class="resource-card fade-in"><span class="resource-type data">Data</span><div class="resource-name">FMI Data</div><div class="resource-desc">Estadísticas macroeconómicas globales del FMI.</div><div class="resource-link">imf.org ↗</div></a>
-      <a href="https://ourworldindata.org" target="_blank" class="resource-card fade-in"><span class="resource-type data">Data</span><div class="resource-name">Our World in Data</div><div class="resource-desc">Datos y visualizaciones sobre desarrollo global.</div><div class="resource-link">ourworldindata.org ↗</div></a>
-      <a href="https://www.nber.org" target="_blank" class="resource-card fade-in"><span class="resource-type paper">Paper</span><div class="resource-name">NBER Working Papers</div><div class="resource-desc">Investigaciones del National Bureau of Economic Research.</div><div class="resource-link">nber.org ↗</div></a>
-      <a href="https://tradingeconomics.com" target="_blank" class="resource-card fade-in"><span class="resource-type tool">Tool</span><div class="resource-name">Trading Economics</div><div class="resource-desc">300,000+ indicadores económicos en tiempo real.</div><div class="resource-link">tradingeconomics.com ↗</div></a>
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow ey-gold">Biblioteca curada</div>
+        <h2 class="sec-title">Recursos Esenciales</h2>
+      </div>
+    </div>
+    <div class="res-grid">
+      <a href="https://data.worldbank.org" target="_blank" rel="noopener" class="res-card card c-electric rv"><span class="res-type rt-data">Data</span><div class="res-name">Banco Mundial</div><div class="res-desc">Datos abiertos de más de 200 países: PIB, pobreza, educación y desarrollo.</div><div class="res-link">data.worldbank.org ↗</div></a>
+      <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener" class="res-card card c-electric rv"><span class="res-type rt-data">Data</span><div class="res-name">FRED</div><div class="res-desc">800.000+ series de datos económicos de la Reserva Federal de St. Louis.</div><div class="res-link">fred.stlouisfed.org ↗</div></a>
+      <a href="https://www.imf.org/en/Data" target="_blank" rel="noopener" class="res-card card c-electric rv"><span class="res-type rt-data">Data</span><div class="res-name">FMI Data</div><div class="res-desc">Estadísticas macroeconómicas globales del Fondo Monetario Internacional.</div><div class="res-link">imf.org ↗</div></a>
+      <a href="https://ourworldindata.org" target="_blank" rel="noopener" class="res-card card c-electric rv"><span class="res-type rt-data">Data</span><div class="res-name">Our World in Data</div><div class="res-desc">Datos y visualizaciones sobre desarrollo económico y bienestar global.</div><div class="res-link">ourworldindata.org ↗</div></a>
+      <a href="https://www.nber.org" target="_blank" rel="noopener" class="res-card card c-gold rv"><span class="res-type rt-paper">Paper</span><div class="res-name">NBER Working Papers</div><div class="res-desc">Investigaciones del National Bureau of Economic Research.</div><div class="res-link">nber.org ↗</div></a>
+      <a href="https://tradingeconomics.com" target="_blank" rel="noopener" class="res-card card c-teal rv"><span class="res-type rt-tool">Tool</span><div class="res-name">Trading Economics</div><div class="res-desc">300.000+ indicadores económicos de 196 países en tiempo real.</div><div class="res-link">tradingeconomics.com ↗</div></a>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
+  <div class="f-inner">
+    <div class="f-top">
       <div>
-        <div class="footer-brand-name">Econ<span>Sphere</span></div>
-        <p class="footer-tagline">Portal integral para economistas. Datos reales, análisis IA y herramientas de cálculo.</p>
-        <p style="font-family:var(--mono);font-size:.65rem;color:rgba(247,244,238,.25);margin-top:.5rem">Backend: econhub-backend-production.up.railway.app</p>
+        <div class="f-logo"><span style="color:var(--teal)">E</span><span style="color:var(--white)">con</span><span style="color:var(--gold)">S</span><span style="color:var(--white)">phere</span></div>
+        <p class="f-tag">Portal integral para economistas. Datos reales, herramientas de mercado y análisis con IA en un solo lugar.</p>
+        <p class="f-backend">Backend: econhub-backend-production.up.railway.app</p>
       </div>
-      <div><div class="footer-col-title">Secciones</div><ul class="footer-links"><li><a href="#mercados">Mercados</a></li><li><a href="#indicadores">Indicadores</a></li><li><a href="#noticias">Noticias</a></li><li><a href="#analisis">Análisis IA</a></li></ul></div>
-      <div><div class="footer-col-title">Herramientas</div><ul class="footer-links"><li><a href="#calculadoras">Calculadoras</a></li><li><a href="#glosario">Glosario</a></li><li><a href="#recursos">Recursos</a></li></ul></div>
-      <div><div class="footer-col-title">Fuentes</div><ul class="footer-links"><li><a href="https://worldbank.org" target="_blank">Banco Mundial</a></li><li><a href="https://newsapi.org" target="_blank">NewsAPI</a></li><li><a href="https://finance.yahoo.com" target="_blank">Yahoo Finance</a></li><li><a href="https://anthropic.com" target="_blank">Anthropic Claude</a></li></ul></div>
+      <div>
+        <div class="f-col-t">Mercado</div>
+        <ul class="f-links"><li><a href="#mercados">Mercados</a></li><li><a href="#conversor">Conversor</a></li><li><a href="#comparador">Comparador</a></li><li><a href="#calendario">Calendario</a></li></ul>
+      </div>
+      <div>
+        <div class="f-col-t">Personal</div>
+        <ul class="f-links"><li><a href="#portfolio">Portfolio</a></li><li><a href="#alertas">Alertas</a></li><li><a href="#analisis">Análisis IA</a></li><li><a href="#calculadoras">Calculadoras</a></li></ul>
+      </div>
+      <div>
+        <div class="f-col-t">Fuentes</div>
+        <ul class="f-links"><li><a href="https://worldbank.org" target="_blank" rel="noopener">Banco Mundial</a></li><li><a href="https://newsapi.org" target="_blank" rel="noopener">NewsAPI</a></li><li><a href="https://finance.yahoo.com" target="_blank" rel="noopener">Yahoo Finance</a></li><li><a href="https://anthropic.com" target="_blank" rel="noopener">Anthropic Claude</a></li></ul>
+      </div>
     </div>
-    <div class="footer-bottom"><span class="footer-copy">© 2026 EconSphere — Portal para Economistas</span><span class="footer-copy">Datos con fines educativos e informativos</span></div>
+    <div class="f-bottom">
+      <span class="f-copy">© 2026 EconSphere — Portal para Economistas</span>
+      <span class="f-copy">Datos con fines educativos e informativos · No constituye asesoramiento financiero</span>
+    </div>
   </div>
 </footer>
-
 <script>
-const API='https://econhub-backend-production.up.railway.app';
-const fmt=n=>new Intl.NumberFormat('es-AR',{maximumFractionDigits:2}).format(n);
-const fmtMoney=n=>'$'+fmt(n);
+/* ════════════════ CORE ════════════════ */
+const API = 'https://econhub-backend-production.up.railway.app';
+const FX_API = 'https://open.er-api.com/v6/latest/';
+const WB_API = 'https://api.worldbank.org/v2/country';
+const fmt  = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits: 2}).format(n);
+const fmt0 = n => new Intl.NumberFormat('es-AR', {maximumFractionDigits: 0}).format(n);
+const $ = id => document.getElementById(id);
 
-/* TICKER */
-const tkSyms=['%5EGSPC','%5EIXIC','AAPL','BTC-USD','GC=F','CL=F'];
-const tkLabels=['S&P 500','NASDAQ','AAPL','Bitcoin','Gold','WTI'];
-async function buildTicker(){
-  const track=document.getElementById('ticker');
-  let items=[];
-  for(let i=0;i<tkSyms.length;i++){
-    try{const r=await fetch(`${API}/api/markets/quote/${tkSyms[i]}`);const d=await r.json();const up=d.change_pct>=0;items.push(`<span class="ticker-item"><span class="label">${tkLabels[i]}</span>${d.price?'$'+fmt(d.price):'--'}<span class="${up?'up':'down'}">${up?'▲':'▼'} ${d.change_pct?Math.abs(d.change_pct).toFixed(2)+'%':'--'}</span>&nbsp;·&nbsp;</span>`);}
-    catch(e){items.push(`<span class="ticker-item"><span class="label">${tkLabels[i]}</span>--&nbsp;·&nbsp;</span>`);}
-  }
-  track.innerHTML=[...items,...items].join('');
+function fetchJSON(url, opts = {}, ms = 12000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, {...opts, signal: ctrl.signal}).then(r => r.json()).finally(() => clearTimeout(t));
 }
-buildTicker();
 
-/* MERCADOS */
-const mkTickers=[{sym:'%5EGSPC',label:'S&P 500'},{sym:'%5EIXIC',label:'NASDAQ'},{sym:'AAPL',label:'Apple'},{sym:'MSFT',label:'Microsoft'},{sym:'BTC-USD',label:'Bitcoin'},{sym:'GC=F',label:'Oro'},{sym:'CL=F',label:'WTI Oil'},{sym:'GGAL',label:'Galicia (AR)'}];
-async function loadMarkets(){
-  const grid=document.getElementById('markets-grid');
-  const status=document.getElementById('markets-status');
-  grid.innerHTML=mkTickers.map(t=>`<div class="market-card fade-in" id="mkt-${t.sym.replace(/[^a-z0-9]/gi,'_')}"><div class="mkt-label">${t.label}</div><div class="mkt-price" style="color:#bbb;font-size:1rem">Cargando…</div></div>`).join('');
-  observeFadeIns();
-  let loaded=0;
-  for(const t of mkTickers){
-    try{
-      const r=await fetch(`${API}/api/markets/quote/${t.sym}`);const d=await r.json();
-      const id='mkt-'+t.sym.replace(/[^a-z0-9]/gi,'_');const card=document.getElementById(id);
-      if(!card)continue;const up=d.change_pct>=0;card.classList.add(up?'up':'down');
-      card.innerHTML=`<div class="mkt-label">${t.label}</div><div class="mkt-price">${d.price?'$'+fmt(d.price):'--'}</div><div class="mkt-change ${up?'pos':'neg'}">${up?'▲':'▼'} ${d.change_pct?Math.abs(d.change_pct).toFixed(2)+'%':'--'} hoy</div>`;
-      loaded++;
-    }catch(e){}
-  }
-  status.innerHTML=`<span class="dot"></span>${loaded} cotizaciones cargadas · ${new Date().toLocaleTimeString('es-AR')}`;
+function toast(msg) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3200);
 }
-loadMarkets();
 
-/* INDICADORES */
-const macroData=[
-  {pais:'US',ind:'NY.GDP.MKTP.CD',label:'PIB USA',fmt:v=>'$'+fmt(v/1e12)+'T'},
-  {pais:'AR',ind:'FP.CPI.TOTL.ZG',label:'Inflación AR',fmt:v=>v.toFixed(1)+'%'},
-  {pais:'US',ind:'FP.CPI.TOTL.ZG',label:'Inflación USA',fmt:v=>v.toFixed(1)+'%'},
-  {pais:'BR',ind:'NY.GDP.MKTP.KD.ZG',label:'PIB Brasil %',fmt:v=>v.toFixed(1)+'%'},
-  {pais:'CN',ind:'NY.GDP.MKTP.KD.ZG',label:'PIB China %',fmt:v=>v.toFixed(1)+'%'},
-  {pais:'US',ind:'SL.UEM.TOTL.ZS',label:'Desempleo USA',fmt:v=>v.toFixed(1)+'%'},
+/* Backend health + wake-up */
+let backendUp = false;
+async function wakeBackend() {
+  const dot = $('status-dot'), txt = $('status-text');
+  for (let i = 0; i < 4; i++) {
+    try {
+      await fetchJSON(API + '/', {}, 9000);
+      backendUp = true;
+      dot.className = 'dot dot-on';
+      txt.textContent = 'Backend conectado — datos en vivo';
+      return true;
+    } catch (e) {
+      txt.textContent = 'Despertando el backend de Railway… (intento ' + (i+1) + '/4)';
+      await new Promise(r => setTimeout(r, 4000));
+    }
+  }
+  dot.className = 'dot dot-off';
+  txt.textContent = 'Backend dormido — mostrando valores de referencia';
+  return false;
+}
+
+/* Reference fallback data (clearly labeled) */
+const REF = {
+  '%5EGSPC': {price: 6850, chg: 0.3}, '%5EIXIC': {price: 22400, chg: 0.5},
+  'AAPL': {price: 295, chg: 0.4}, 'MSFT': {price: 510, chg: 0.2},
+  'BTC-USD': {price: 105000, chg: -0.8}, 'GC=F': {price: 3350, chg: 0.3},
+  'CL=F': {price: 78, chg: 0.6}, 'GGAL': {price: 62, chg: 1.1},
+  'YPF': {price: 41, chg: 0.9}, 'ARS=X': {price: 1190, chg: 0.1},
+};
+
+async function getQuote(sym) {
+  try {
+    const d = await fetchJSON(`${API}/api/markets/quote/${sym}`, {}, 10000);
+    if (d && d.price) return {price: d.price, chg: d.change_pct ?? 0, live: true};
+  } catch (e) {}
+  const r = REF[sym];
+  return r ? {price: r.price, chg: r.chg, live: false} : null;
+}
+
+/* ════════════════ HERO PANEL + TICKER + MERCADOS ════════════════ */
+const HERO_SYMS = [
+  {sym: '%5EGSPC', label: 'S&P 500'}, {sym: '%5EIXIC', label: 'NASDAQ'},
+  {sym: 'BTC-USD', label: 'Bitcoin'}, {sym: 'GC=F', label: 'Oro'},
+  {sym: 'ARS=X', label: 'USD/ARS'},
 ];
-async function loadIndicators(){
-  const grid=document.getElementById('indicators-grid');
-  grid.innerHTML=macroData.map((_,i)=>`<div class="ind-card fade-in" id="ind-${i}"><div class="ind-label">Cargando…</div><div class="ind-value">--</div></div>`).join('');
-  observeFadeIns();
-  for(let i=0;i<macroData.length;i++){
-    const m=macroData[i];
-    try{
-      const r=await fetch(`${API}/api/indicators/${m.pais}/${m.ind}?desde=2018&hasta=2023`);const d=await r.json();
-      const card=document.getElementById(`ind-${i}`);if(!card||!d.data||!d.data.length)continue;
-      const latest=d.data[d.data.length-1];const vals=d.data.map(x=>x.value).filter(Boolean);const maxV=Math.max(...vals);
-      const bars=vals.slice(-8).map(v=>`<div class="ind-bar" style="height:${Math.max(8,(v/maxV)*100)}%"></div>`).join('');
-      card.innerHTML=`<div class="ind-label">${m.label}</div><div class="ind-value">${m.fmt(latest.value)}</div><div class="ind-year">${latest.year}</div><div class="ind-sparkline">${bars}</div>`;
-    }catch(e){}
+const MKT_SYMS = [
+  {sym: '%5EGSPC', label: 'S&P 500', c: 'teal'}, {sym: '%5EIXIC', label: 'NASDAQ', c: 'teal'},
+  {sym: 'AAPL', label: 'Apple', c: 'electric'}, {sym: 'MSFT', label: 'Microsoft', c: 'electric'},
+  {sym: 'BTC-USD', label: 'Bitcoin', c: 'gold'}, {sym: 'GC=F', label: 'Oro', c: 'gold'},
+  {sym: 'CL=F', label: 'WTI Oil', c: 'teal'}, {sym: 'GGAL', label: 'Galicia AR', c: 'electric'},
+];
+const quotes = {};
+
+function sparkHTML(up) {
+  const cls = up ? 'pos' : 'neg';
+  let h = '';
+  for (let i = 0; i < 9; i++) h += `<i class="${cls}" style="height:${Math.round(Math.random()*70+22)}%"></i>`;
+  return h;
+}
+
+async function loadMarketsAll() {
+  const grid = $('markets-grid');
+  grid.innerHTML = MKT_SYMS.map(m => {
+    const id = 'mkt_' + m.sym.replace(/[^a-z0-9]/gi, '_');
+    return `<div class="mkt card c-${m.c} rv in" id="${id}">
+      <div class="mkt-label">${m.label}</div>
+      <div class="mkt-price"><span class="skel" style="display:inline-block;width:90px;height:24px"></span></div>
+      <div class="mkt-chg"><span class="skel" style="display:inline-block;width:60px;height:11px"></span></div>
+    </div>`;
+  }).join('');
+
+  const status = $('mkt-status');
+  let live = 0, refUsed = 0;
+  await Promise.all(MKT_SYMS.map(async m => {
+    const q = await getQuote(m.sym);
+    quotes[m.sym] = q;
+    const card = $('mkt_' + m.sym.replace(/[^a-z0-9]/gi, '_'));
+    if (!card || !q) return;
+    const up = q.chg >= 0;
+    q.live ? live++ : refUsed++;
+    card.innerHTML = `
+      <div class="mkt-label">${m.label}${q.live ? '' : '<span class="badge-ref">ref.</span>'}</div>
+      <div class="mkt-price">$${fmt(q.price)}</div>
+      <div class="mkt-chg ${up ? 'pos' : 'neg'}">${up ? '▲' : '▼'} ${Math.abs(q.chg).toFixed(2)}% hoy</div>
+      <div class="spark">${sparkHTML(up)}</div>`;
+  }));
+
+  if (live > 0 && refUsed === 0) {
+    status.className = 'status-bar';
+    status.innerHTML = `<span class="dot dot-on"></span>${live} cotizaciones en vivo · ${new Date().toLocaleTimeString('es-AR')}`;
+  } else if (live > 0) {
+    status.className = 'status-bar warn';
+    status.innerHTML = `<span class="dot dot-wait"></span>${live} en vivo · ${refUsed} de referencia (el backend sigue despertando — recargá en un minuto)`;
+  } else {
+    status.className = 'status-bar warn';
+    status.innerHTML = `<span class="dot dot-wait"></span>Valores de referencia — el backend de Railway está despertando. Recargá la página en ~1 minuto.`;
+  }
+
+  /* hero panel */
+  $('hero-rows').innerHTML = HERO_SYMS.map(h => {
+    const q = quotes[h.sym] || REF[h.sym] && {price: REF[h.sym].price, chg: REF[h.sym].chg, live: false};
+    if (!q) return '';
+    const up = q.chg >= 0;
+    return `<div class="hero-row">
+      <span class="sym">${h.label}</span>
+      <span class="px">$${fmt(q.price)}${q.live ? '' : ' <span class="badge-ref">ref.</span>'}</span>
+      <span class="chg ${up ? 'pos' : 'neg'}">${up ? '▲' : '▼'} ${Math.abs(q.chg).toFixed(2)}%</span>
+    </div>`;
+  }).join('');
+  $('panel-time').textContent = new Date().toLocaleTimeString('es-AR', {hour: '2-digit', minute: '2-digit'});
+
+  /* ticker */
+  const items = MKT_SYMS.map(m => {
+    const q = quotes[m.sym];
+    if (!q) return '';
+    const up = q.chg >= 0;
+    return `<span class="tk"><span class="lbl">${m.label}</span>$${fmt(q.price)}<span class="${up ? 'up' : 'down'}">${up ? '▲' : '▼'} ${Math.abs(q.chg).toFixed(2)}%</span>&nbsp;·&nbsp;</span>`;
+  });
+  $('ticker').innerHTML = [...items, ...items].join('');
+
+  refreshPortfolio();
+  checkAlerts();
+}
+
+/* ════════════════ CONVERSOR ════════════════ */
+const CURRENCIES = [
+  ['USD','Dólar estadounidense'],['ARS','Peso argentino'],['EUR','Euro'],['BRL','Real brasileño'],
+  ['CLP','Peso chileno'],['MXN','Peso mexicano'],['UYU','Peso uruguayo'],['COP','Peso colombiano'],
+  ['PEN','Sol peruano'],['GBP','Libra esterlina'],['JPY','Yen japonés'],['CNY','Yuan chino'],
+  ['CHF','Franco suizo'],['CAD','Dólar canadiense'],['AUD','Dólar australiano'],['INR','Rupia india'],
+];
+let fxRates = null;
+
+function initConverter() {
+  const opts = CURRENCIES.map(([c, n]) => `<option value="${c}">${c} — ${n}</option>`).join('');
+  $('cv-from').innerHTML = opts;
+  $('cv-to').innerHTML = opts;
+  $('cv-from').value = 'USD';
+  $('cv-to').value = 'ARS';
+}
+
+async function loadFX() {
+  try {
+    const d = await fetchJSON(FX_API + 'USD', {}, 10000);
+    if (d && d.rates) {
+      fxRates = d.rates;
+      const pairs = [['ARS','Peso argentino'],['EUR','Euro'],['BRL','Real brasileño'],['CLP','Peso chileno'],['MXN','Peso mexicano'],['JPY','Yen japonés']];
+      $('cv-popular').innerHTML = pairs.map(([c, n]) =>
+        `<div class="pair card c-teal" onclick="quickPair('${c}')" title="Usar este par">
+           <span class="p-name">${c} · ${n}</span>
+           <span class="p-val">${fmt(fxRates[c])}</span>
+         </div>`).join('');
+      convert();
+    }
+  } catch (e) {
+    $('cv-popular').innerHTML = `<div class="pair card"><span class="p-name">No se pudieron cargar las tasas — revisá tu conexión.</span></div>`;
   }
 }
-loadIndicators();
 
-/* NOTICIAS */
-async function loadNews(){
-  const container=document.getElementById('news-container');
-  try{
-    const r=await fetch(`${API}/api/news`);const d=await r.json();
-    if(d.error||!d.articles||!d.articles.length){container.innerHTML=`<div class="news-loading">Noticias no disponibles. Verificá la NEWSAPI_KEY en Railway.</div>`;return;}
-    const arts=d.articles;const featured=arts[0];const rest=arts.slice(1,6);
-    container.innerHTML=`
-      <div class="news-featured">
-        <span class="news-tag">${featured.source?.name||'Economía'}</span>
-        <a href="${featured.url}" target="_blank" class="news-featured-title">${featured.title}</a>
-        <p class="news-featured-desc">${featured.description||''}</p>
-        <div class="news-featured-meta">${new Date(featured.publishedAt).toLocaleString('es-AR',{dateStyle:'medium',timeStyle:'short'})}</div>
+function quickPair(to) { $('cv-from').value = 'USD'; $('cv-to').value = to; convert(); }
+function swapCurrencies() { const a = $('cv-from').value; $('cv-from').value = $('cv-to').value; $('cv-to').value = a; convert(); }
+
+function convert() {
+  if (!fxRates) { toast('Las tasas todavía están cargando…'); return; }
+  const amt = parseFloat($('cv-amount').value) || 0;
+  const from = $('cv-from').value, to = $('cv-to').value;
+  const rate = fxRates[to] / fxRates[from];
+  const out = amt * rate;
+  $('cv-result').style.display = 'block';
+  $('cv-val').textContent = fmt(out) + ' ' + to;
+  $('cv-rate').textContent = `1 ${from} = ${fmt(rate)} ${to} · Tasa de referencia diaria (open.er-api.com)`;
+}
+
+/* ════════════════ COMPARADOR ════════════════ */
+const COMP_NAMES = {AR:'Argentina',BR:'Brasil',CL:'Chile',CN:'China',DE:'Alemania',ES:'España',IN:'India',JP:'Japón',MX:'México',US:'Estados Unidos',UY:'Uruguay'};
+const COMP_METRICS = [
+  {ind: 'NY.GDP.MKTP.KD.ZG', label: 'Crecimiento del PIB (% anual)', f: v => v.toFixed(1) + '%'},
+  {ind: 'FP.CPI.TOTL.ZG',    label: 'Inflación (% anual)',           f: v => v.toFixed(1) + '%'},
+  {ind: 'SL.UEM.TOTL.ZS',    label: 'Desempleo (% PEA)',             f: v => v.toFixed(1) + '%'},
+  {ind: 'NY.GDP.PCAP.CD',    label: 'PIB per cápita (USD)',          f: v => '$' + fmt0(v)},
+];
+
+async function wbLatest(country, ind) {
+  /* backend primero, World Bank directo como respaldo */
+  try {
+    const d = await fetchJSON(`${API}/api/indicators/${country}/${ind}?desde=2018&hasta=2024`, {}, 9000);
+    if (d && d.data && d.data.length) {
+      const valid = d.data.filter(x => x.value != null);
+      if (valid.length) return {v: valid[valid.length-1].value, y: valid[valid.length-1].year};
+    }
+  } catch (e) {}
+  try {
+    const d = await fetchJSON(`${WB_API}/${country}/indicator/${ind}?format=json&per_page=8&date=2018:2024`, {}, 9000);
+    if (Array.isArray(d) && d[1]) {
+      const valid = d[1].filter(x => x.value != null);
+      if (valid.length) return {v: valid[0].value, y: valid[0].date};
+    }
+  } catch (e) {}
+  return null;
+}
+
+async function runCompare() {
+  const a = $('comp-a').value, b = $('comp-b').value;
+  if (a === b) { toast('Elegí dos países distintos'); return; }
+  $('legend-a').textContent = COMP_NAMES[a];
+  $('legend-b').textContent = COMP_NAMES[b];
+  const grid = $('comp-grid');
+  grid.innerHTML = COMP_METRICS.map((m, i) => `
+    <div class="comp-card card c-teal rv in" id="cmp-${i}">
+      <div class="comp-metric">${m.label}</div>
+      <div class="skel" style="height:46px"></div>
+    </div>`).join('');
+
+  await Promise.all(COMP_METRICS.map(async (m, i) => {
+    const [ra, rb] = await Promise.all([wbLatest(a, m.ind), wbLatest(b, m.ind)]);
+    const card = $('cmp-' + i);
+    if (!card) return;
+    if (!ra && !rb) {
+      card.innerHTML = `<div class="comp-metric">${m.label}</div><div class="pf-empty" style="padding:0.8rem 0">Dato no disponible para esta serie.</div>`;
+      return;
+    }
+    const va = ra ? ra.v : null, vb = rb ? rb.v : null;
+    const max = Math.max(Math.abs(va ?? 0), Math.abs(vb ?? 0)) || 1;
+    const row = (name, val, year, cls) => val == null
+      ? `<div class="comp-row"><div class="comp-row-head"><span class="country">${name}</span><span class="val" style="color:var(--dim)">s/d</span></div></div>`
+      : `<div class="comp-row">
+           <div class="comp-row-head"><span class="country">${name} · ${year}</span><span class="val" style="color:${cls==='fill-a'?'var(--teal)':'var(--gold-lt)'}">${m.f(val)}</span></div>
+           <div class="comp-track"><div class="comp-fill ${cls}" data-w="${Math.min(100, Math.abs(val)/max*100)}"></div></div>
+         </div>`;
+    card.innerHTML = `<div class="comp-metric">${m.label}</div>` +
+      row(COMP_NAMES[a], va, ra ? ra.y : '', 'fill-a') +
+      row(COMP_NAMES[b], vb, rb ? rb.y : '', 'fill-b');
+    requestAnimationFrame(() => card.querySelectorAll('.comp-fill').forEach(f => f.style.width = f.dataset.w + '%'));
+  }));
+}
+
+/* ════════════════ PORTFOLIO (localStorage) ════════════════ */
+const PF_KEY = 'econsphere_portfolio_v1';
+function pfLoad() { try { return JSON.parse(localStorage.getItem(PF_KEY)) || []; } catch (e) { return []; } }
+function pfSave(p) { localStorage.setItem(PF_KEY, JSON.stringify(p)); }
+
+async function addPosition() {
+  const t = $('pf-ticker').value.trim().toUpperCase();
+  const q = parseFloat($('pf-qty').value);
+  const c = parseFloat($('pf-cost').value) || null;
+  if (!t || !q || q <= 0) { toast('Completá ticker y cantidad'); return; }
+  const p = pfLoad();
+  p.push({t, q, c});
+  pfSave(p);
+  $('pf-ticker').value = ''; $('pf-qty').value = ''; $('pf-cost').value = '';
+  toast(t + ' agregado al portfolio');
+  refreshPortfolio();
+}
+
+function removePosition(i) {
+  const p = pfLoad(); p.splice(i, 1); pfSave(p); refreshPortfolio();
+}
+
+async function refreshPortfolio() {
+  const p = pfLoad();
+  $('pf-count').textContent = p.length;
+  const body = $('pf-body');
+  if (!p.length) {
+    body.innerHTML = `<tr><td colspan="6" class="pf-empty">Todavía no agregaste posiciones.<br>Sumá tu primer activo desde el formulario.</td></tr>`;
+    $('pf-total').textContent = '$0';
+    $('pf-pnl').textContent = '—'; $('pf-pnl').style.color = 'var(--muted)';
+    return;
+  }
+  body.innerHTML = p.map((pos, i) =>
+    `<tr id="pfrow-${i}"><td style="color:var(--gold);font-weight:600">${pos.t}</td><td>${fmt(pos.q)}</td>
+     <td><span class="skel" style="display:inline-block;width:54px;height:11px"></span></td>
+     <td><span class="skel" style="display:inline-block;width:62px;height:11px"></span></td>
+     <td>—</td><td><button class="x-btn" onclick="removePosition(${i})" title="Quitar">✕</button></td></tr>`).join('');
+
+  let total = 0, totalCost = 0, hasCost = false;
+  await Promise.all(p.map(async (pos, i) => {
+    const enc = encodeURIComponent(pos.t).replace(/%5E/g, '%5E');
+    const q = quotes[pos.t] || quotes[enc] || await getQuote(enc);
+    const row = $('pfrow-' + i);
+    if (!row) return;
+    if (!q) {
+      row.cells[2].textContent = 's/d'; row.cells[3].textContent = 's/d';
+      return;
+    }
+    const val = q.price * pos.q;
+    total += val;
+    let pnlCell = '—', pnlColor = 'var(--muted)';
+    if (pos.c) {
+      hasCost = true;
+      const cost = pos.c * pos.q; totalCost += cost;
+      const pnl = val - cost, pct = (pnl / cost) * 100;
+      pnlColor = pnl >= 0 ? 'var(--teal)' : 'var(--red)';
+      pnlCell = `${pnl >= 0 ? '+' : ''}$${fmt(pnl)} (${pct.toFixed(1)}%)`;
+    }
+    row.cells[2].innerHTML = '$' + fmt(q.price) + (q.live ? '' : ' <span class="badge-ref">ref.</span>');
+    row.cells[3].textContent = '$' + fmt(val);
+    row.cells[4].innerHTML = `<span style="color:${pnlColor}">${pnlCell}</span>`;
+  }));
+  $('pf-total').textContent = '$' + fmt(total);
+  if (hasCost && totalCost > 0) {
+    const pnl = total - totalCost, pct = (pnl / totalCost) * 100;
+    $('pf-pnl').textContent = `${pnl >= 0 ? '+' : ''}${pct.toFixed(1)}%`;
+    $('pf-pnl').style.color = pnl >= 0 ? 'var(--teal)' : 'var(--red)';
+  } else {
+    $('pf-pnl').textContent = '—'; $('pf-pnl').style.color = 'var(--muted)';
+  }
+}
+
+/* ════════════════ ALERTAS (localStorage) ════════════════ */
+const AL_KEY = 'econsphere_alerts_v1';
+function alLoad() { try { return JSON.parse(localStorage.getItem(AL_KEY)) || []; } catch (e) { return []; } }
+function alSave(a) { localStorage.setItem(AL_KEY, JSON.stringify(a)); }
+
+function addAlert() {
+  const t = $('al-ticker').value.trim().toUpperCase();
+  const dir = $('al-dir').value;
+  const target = parseFloat($('al-target').value);
+  if (!t || !target || target <= 0) { toast('Completá ticker y precio objetivo'); return; }
+  const a = alLoad();
+  a.push({t, dir, target});
+  alSave(a);
+  $('al-ticker').value = ''; $('al-target').value = '';
+  toast('Alerta creada para ' + t);
+  checkAlerts();
+}
+
+function removeAlert(i) { const a = alLoad(); a.splice(i, 1); alSave(a); checkAlerts(); }
+
+async function checkAlerts() {
+  const a = alLoad();
+  const list = $('al-list');
+  if (!a.length) {
+    list.innerHTML = `<div class="card" style="padding:2.2rem;text-align:center"><span class="pf-empty" style="padding:0">Sin alertas activas.<br>Creá la primera desde el formulario.</span></div>`;
+    return;
+  }
+  list.innerHTML = a.map((al, i) =>
+    `<div class="al-item card" id="alrow-${i}">
+       <span class="al-info"><span class="sym">${al.t}</span> ${al.dir === 'above' ? '↑ sube de' : '↓ baja de'} $${fmt(al.target)} · <span id="alpx-${i}">verificando…</span></span>
+       <span style="display:flex;align-items:center;gap:0.6rem">
+         <span class="al-state wait" id="alst-${i}">Pendiente</span>
+         <button class="x-btn" onclick="removeAlert(${i})" title="Quitar">✕</button>
+       </span>
+     </div>`).join('');
+
+  let hits = 0;
+  await Promise.all(a.map(async (al, i) => {
+    const enc = encodeURIComponent(al.t);
+    const q = quotes[al.t] || await getQuote(enc);
+    const px = $('alpx-' + i), st = $('alst-' + i), row = $('alrow-' + i);
+    if (!q) { if (px) px.textContent = 'sin datos'; return; }
+    if (px) px.innerHTML = 'ahora $' + fmt(q.price) + (q.live ? '' : ' <span class="badge-ref">ref.</span>');
+    const hit = al.dir === 'above' ? q.price >= al.target : q.price <= al.target;
+    if (hit && st && row) {
+      st.textContent = '¡Alcanzada!'; st.className = 'al-state hit'; row.classList.add('hit'); hits++;
+    }
+  }));
+  if (hits > 0) toast(`🔔 ${hits} alerta${hits > 1 ? 's' : ''} de precio alcanzada${hits > 1 ? 's' : ''}`);
+}
+
+/* ════════════════ CALENDARIO ════════════════ */
+const CAL = [
+  {d: 16, m: 'JUN', tag: 'fed',  imp: 'high', t: 'Reunión del FOMC (Fed) — día 1', p: 'Comienza la reunión de dos días del Comité Federal de Mercado Abierto.'},
+  {d: 17, m: 'JUN', tag: 'fed',  imp: 'high', t: 'Decisión de tasas de la Fed', p: 'Anuncio de tasa de fondos federales, proyecciones y conferencia de Powell.'},
+  {d: 18, m: 'JUN', tag: 'arg',  imp: 'med',  t: 'IPC Argentina (INDEC) — mayo', p: 'Publicación estimada del índice de precios al consumidor de mayo.'},
+  {d: 25, m: 'JUN', tag: 'dato', imp: 'med',  t: 'PIB EE.UU. Q1 — revisión final', p: 'Tercera estimación del crecimiento del primer trimestre (BEA).'},
+  {d: 1,  m: 'JUL', tag: 'eu',   imp: 'med',  t: 'Inflación Eurozona — flash junio', p: 'Estimación preliminar del IPCA armonizado de la zona euro (Eurostat).'},
+  {d: 3,  m: 'JUL', tag: 'dato', imp: 'high', t: 'Empleo EE.UU. (Nonfarm Payrolls)', p: 'Informe de nóminas no agrícolas y tasa de desempleo de junio (BLS).'},
+  {d: 14, m: 'JUL', tag: 'arg',  imp: 'med',  t: 'IPC Argentina (INDEC) — junio', p: 'Publicación estimada de la inflación de junio.'},
+  {d: 15, m: 'JUL', tag: 'dato', imp: 'high', t: 'IPC EE.UU. — junio', p: 'Índice de precios al consumidor de junio (BLS). Clave para la Fed.'},
+  {d: 23, m: 'JUL', tag: 'eu',   imp: 'med',  t: 'Decisión de tasas del BCE', p: 'Reunión de política monetaria del Banco Central Europeo (fecha estimada).'},
+  {d: 28, m: 'JUL', tag: 'fed',  imp: 'high', t: 'Reunión del FOMC (Fed) — julio', p: 'Reunión de dos días del comité; decisión el 29 de julio.'},
+];
+function renderCalendar() {
+  $('cal-grid').innerHTML = CAL.map(e => `
+    <div class="cal-item card c-electric rv">
+      <div class="cal-date"><div class="cal-day">${e.d}</div><div class="cal-mon">${e.m}</div></div>
+      <div class="cal-body">
+        <span class="cal-tag ct-${e.tag}">${({fed:'Fed · EE.UU.', arg:'Argentina', eu:'Europa', dato:'Dato macro'})[e.tag]}</span><span class="imp ${e.imp}"><i></i><i></i><i></i></span>
+        <h4>${e.t}</h4><p>${e.p}</p>
       </div>
-      <div class="news-sidebar">${rest.map(a=>`<a href="${a.url}" target="_blank" class="news-item"><div class="news-item-title">${a.title}</div><div class="news-item-meta">${a.source?.name||''} · ${new Date(a.publishedAt).toLocaleDateString('es-AR')}</div></a>`).join('')}</div>`;
-  }catch(e){container.innerHTML=`<div class="news-loading">Error conectando con el backend.</div>`;}
-}
-loadNews();
-
-/* ANALISIS IA */
-async function runAnalysis(){
-  const ticker=document.getElementById('ai-ticker').value.trim();
-  const tipo=document.getElementById('ai-type').value;
-  const horizonte=document.getElementById('ai-horizon').value;
-  const loading=document.getElementById('analysis-loading');
-  const result=document.getElementById('analysis-result');
-  const text=document.getElementById('analysis-text');
-  if(!ticker){alert('Ingresá un ticker');return;}
-  loading.classList.add('show');result.classList.remove('show');
-  try{
-    const r=await fetch(`${API}/api/analysis`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ticker,tipo_analisis:tipo,horizonte})});
-    const d=await r.json();loading.classList.remove('show');
-    text.textContent=d.analysis||d.detail||JSON.stringify(d);result.classList.add('show');
-  }catch(e){loading.classList.remove('show');text.textContent='Error conectando con el backend.';result.classList.add('show');}
+    </div>`).join('');
 }
 
-/* CALCULADORAS */
-function switchCalc(id,e){
-  document.querySelectorAll('.calc-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.calc-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('panel-'+id).classList.add('active');e.target.classList.add('active');
+/* ════════════════ NOTICIAS ════════════════ */
+async function loadNews() {
+  const c = $('news-container');
+  try {
+    const d = await fetchJSON(`${API}/api/news`, {}, 14000);
+    if (!d || d.error || !d.articles || !d.articles.length) {
+      c.innerHTML = `<div class="news-loading">Las noticias no están disponibles en este momento.<br>El backend puede estar despertando — recargá en un minuto.</div>`;
+      return;
+    }
+    const [f, ...rest] = d.articles;
+    c.innerHTML = `
+      <div class="news-feat card c-teal">
+        <span class="news-tag">${f.source?.name || 'Economía'}</span>
+        <a href="${f.url}" target="_blank" rel="noopener" class="news-feat-title">${f.title}</a>
+        <p class="news-feat-desc">${f.description || ''}</p>
+        <div class="news-meta">${new Date(f.publishedAt).toLocaleString('es-AR', {dateStyle: 'medium', timeStyle: 'short'})}</div>
+      </div>
+      <div class="news-side">${rest.slice(0, 5).map(a =>
+        `<a href="${a.url}" target="_blank" rel="noopener" class="news-item card">
+           <div class="news-item-t">${a.title}</div>
+           <div class="news-item-m">${a.source?.name || ''} · ${new Date(a.publishedAt).toLocaleDateString('es-AR')}</div>
+         </a>`).join('')}</div>`;
+  } catch (e) {
+    c.innerHTML = `<div class="news-loading">No se pudo conectar con el backend para cargar noticias.<br>Recargá la página en un minuto.</div>`;
+  }
 }
-function calcVP(){const fv=+document.getElementById('vp-fv').value,r=+document.getElementById('vp-r').value/100,n=+document.getElementById('vp-n').value;const pv=fv/Math.pow(1+r,n);document.getElementById('result-vp-val').textContent=fmtMoney(pv);document.getElementById('result-vp-det').textContent=`${fmtMoney(fv)} en ${n} años al ${(r*100).toFixed(1)}% = ${fmtMoney(pv)} hoy.`;document.getElementById('result-vp').classList.add('show');}
-function calcInflacion(){const p=+document.getElementById('inf-p').value,r=+document.getElementById('inf-r').value/100,n=+document.getElementById('inf-n').value;const pf=p*Math.pow(1+r,n);document.getElementById('result-inf-val').textContent=fmtMoney(pf);document.getElementById('result-inf-det').textContent=`Con ${(r*100).toFixed(1)}% anual, ${fmtMoney(p)} hoy = ${fmtMoney(pf)} en ${n} años.`;document.getElementById('result-inf').classList.add('show');}
-function calcElasticidad(){const q=+document.getElementById('el-q').value,p=+document.getElementById('el-p').value;const e=q/p;const abs=Math.abs(e);const tipo=abs>1?'Elástica':abs===1?'Unitaria':'Inelástica';document.getElementById('result-el-val').textContent=e.toFixed(3);document.getElementById('result-el-det').textContent=`Demanda ${tipo}. Por cada 1% de precio, cantidad varía ${e.toFixed(2)}%.`;document.getElementById('result-el').classList.add('show');}
-function calcCAGR(){const vi=+document.getElementById('cagr-vi').value,vf=+document.getElementById('cagr-vf').value,n=+document.getElementById('cagr-n').value;const cagr=(Math.pow(vf/vi,1/n)-1)*100;document.getElementById('result-cagr-val').textContent=cagr.toFixed(2)+'%';document.getElementById('result-cagr-det').textContent=`De ${fmtMoney(vi)} a ${fmtMoney(vf)} en ${n} años = ${cagr.toFixed(2)}% anual.`;document.getElementById('result-cagr').classList.add('show');}
-function calcPIB(){const t=+document.getElementById('pib-t').value*1e6,p=+document.getElementById('pib-p').value*1e3;const pc=t/p;document.getElementById('result-pib-val').textContent=fmtMoney(pc);document.getElementById('result-pib-det').textContent=`PIB ${fmtMoney(t/1e9)}B / ${fmt(p/1e6)}M hab. = ${fmtMoney(pc)} per cápita.`;document.getElementById('result-pib').classList.add('show');}
-calcVP();
 
-/* GLOSARIO */
-const glosarioData=[
-  {term:'PIB',tag:'Macro',def:'Valor monetario total de los bienes y servicios producidos en un país durante un período.'},
-  {term:'Inflación',tag:'Macro',def:'Aumento sostenido del nivel general de precios que reduce el poder adquisitivo de la moneda.'},
-  {term:'Deflación',tag:'Macro',def:'Caída sostenida del nivel general de precios; puede indicar contracción en la demanda agregada.'},
-  {term:'Elasticidad',tag:'Micro',def:'Sensibilidad de una variable económica ante cambios en otra. Ej: elasticidad precio de la demanda.'},
-  {term:'Monopolio',tag:'Micro',def:'Estructura de mercado donde un único vendedor tiene poder para fijar precios sin competencia.'},
-  {term:'Oligopolio',tag:'Micro',def:'Mercado dominado por pocos productores con interdependencia estratégica en precios y cantidades.'},
-  {term:'Curva de Phillips',tag:'Macro',def:'Relación inversa histórica entre inflación y desempleo. Versión moderna incorpora expectativas.'},
-  {term:'NAIRU',tag:'Empleo',def:'Tasa de desempleo compatible con inflación estable (Non-Accelerating Inflation Rate of Unemployment).'},
-  {term:'Política Fiscal',tag:'Política',def:'Uso del gasto público e impuestos por el Estado para influir la actividad económica.'},
-  {term:'Política Monetaria',tag:'Política',def:'Acciones del banco central para controlar la oferta monetaria y tasas de interés.'},
-  {term:'Valor Presente',tag:'Finanzas',def:'Valor actual de un flujo futuro descontado a una tasa que refleja el costo de oportunidad del capital.'},
-  {term:'Stagflación',tag:'Macro',def:'Combinación de estancamiento económico (alta desocupación) e inflación elevada simultáneos.'},
-  {term:'Riesgo País',tag:'Finanzas',def:'Prima adicional que exigen inversores por mantener deuda soberana vs. bonos de referencia seguros.'},
-  {term:'Tipo de Cambio Real',tag:'Cambiario',def:'Precio relativo de los bienes de un país vs. otro, ajustado por diferencias de precios e inflación.'},
-  {term:'PPA',tag:'Internacional',def:'Paridad del Poder Adquisitivo: tipo de cambio teórico que iguala el poder de compra entre países.'},
-  {term:'Crowding-Out',tag:'Fiscal',def:'Desplazamiento de inversión privada por gasto público financiado con deuda, que eleva tasas.'},
-  {term:'Señoreaje',tag:'Monetario',def:'Ingreso del Estado por emitir moneda — diferencia entre valor nominal y costo de producción.'},
-  {term:'CAGR',tag:'Finanzas',def:'Tasa Anual Compuesta de Crecimiento — tasa que lleva un valor inicial a uno final en N años.'},
-  {term:'Trampa de Liquidez',tag:'Macro',def:'Situación donde la política monetaria es ineficaz porque los agentes prefieren retener efectivo.'},
-  {term:'Dilema del Prisionero',tag:'Micro',def:'En teoría de juegos: la racionalidad individual produce un resultado subóptimo para todos.'},
+/* ════════════════ ANALISIS IA ════════════════ */
+function setTicker(t) { $('ai-ticker').value = t; }
+async function runAnalysis() {
+  const ticker = $('ai-ticker').value.trim().toUpperCase();
+  if (!ticker) { toast('Ingresá un ticker'); return; }
+  const loading = $('an-loading'), result = $('an-result'), text = $('an-text');
+  loading.classList.add('show'); result.classList.remove('show');
+  try {
+    const d = await fetchJSON(`${API}/api/analysis`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ticker, tipo_analisis: $('ai-type').value, horizonte: $('ai-horizon').value})
+    }, 60000);
+    loading.classList.remove('show');
+    text.textContent = d.analysis || d.detail || JSON.stringify(d);
+    result.classList.add('show');
+  } catch (e) {
+    loading.classList.remove('show');
+    text.textContent = 'No se pudo completar el análisis. El backend puede estar despertando — probá de nuevo en un minuto.';
+    result.classList.add('show');
+  }
+}
+
+/* ════════════════ CALCULADORAS ════════════════ */
+function switchCalc(id, e) {
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  $('panel-' + id).classList.add('active');
+  e.target.classList.add('active');
+}
+function show(id, v, d) { $(id + '-v').textContent = v; $(id + '-d').textContent = d; $(id).classList.add('show'); }
+function calcVP() {
+  const fv = +$('vp-fv').value, r = +$('vp-r').value / 100, n = +$('vp-n').value;
+  const pv = fv / Math.pow(1 + r, n);
+  show('r-vp', '$' + fmt(pv), `$${fmt(fv)} dentro de ${n} años al ${(r*100).toFixed(1)}% equivalen a $${fmt(pv)} de hoy.`);
+}
+function calcInf() {
+  const p = +$('inf-p').value, r = +$('inf-r').value / 100, n = +$('inf-n').value;
+  const pf = p * Math.pow(1 + r, n);
+  show('r-inf', '$' + fmt(pf), `Con ${(r*100).toFixed(1)}% anual, $${fmt(p)} de hoy costarán $${fmt(pf)} en ${n} años.`);
+}
+function calcEl() {
+  const q = +$('el-q').value, p = +$('el-p').value;
+  if (!p) { toast('La variación de precio no puede ser 0'); return; }
+  const e = q / p, abs = Math.abs(e);
+  const tipo = abs > 1 ? 'elástica (sensible al precio)' : abs === 1 ? 'unitaria' : 'inelástica (poco sensible)';
+  show('r-el', e.toFixed(3), `Demanda ${tipo}: por cada 1% de cambio en el precio, la cantidad varía ${e.toFixed(2)}%.`);
+}
+function calcCagr() {
+  const vi = +$('cg-vi').value, vf = +$('cg-vf').value, n = +$('cg-n').value;
+  if (!vi || !n) { toast('Revisá los valores'); return; }
+  const c = (Math.pow(vf / vi, 1 / n) - 1) * 100;
+  show('r-cg', c.toFixed(2) + '%', `Pasar de $${fmt(vi)} a $${fmt(vf)} en ${n} años implica ${c.toFixed(2)}% anual compuesto.`);
+}
+function calcPib() {
+  const t = +$('pib-t').value * 1e6, p = +$('pib-p').value * 1e3;
+  if (!p) { toast('La población no puede ser 0'); return; }
+  show('r-pib', '$' + fmt0(t / p), `PIB de $${fmt(t/1e9)} mil millones entre ${fmt(p/1e6)} millones de personas.`);
+}
+
+/* ════════════════ GLOSARIO ════════════════ */
+const GLO = [
+  {t:'PIB',c:'macro',d:'Valor monetario total de los bienes y servicios finales producidos en un país durante un período.'},
+  {t:'Inflación',c:'macro',d:'Aumento sostenido del nivel general de precios que reduce el poder adquisitivo de la moneda.'},
+  {t:'Deflación',c:'macro',d:'Caída sostenida del nivel general de precios; suele señalar contracción de la demanda agregada.'},
+  {t:'Stagflación',c:'macro',d:'Combinación simultánea de estancamiento económico, alto desempleo e inflación elevada.'},
+  {t:'Curva de Phillips',c:'macro',d:'Relación inversa histórica entre inflación y desempleo; la versión moderna incorpora expectativas.'},
+  {t:'Trampa de Liquidez',c:'macro',d:'Situación donde la política monetaria pierde eficacia porque los agentes prefieren retener efectivo.'},
+  {t:'Elasticidad',c:'micro',d:'Sensibilidad de una variable económica ante cambios en otra; p. ej., elasticidad precio de la demanda.'},
+  {t:'Monopolio',c:'micro',d:'Estructura de mercado con un único vendedor con poder para fijar precios sin competencia directa.'},
+  {t:'Oligopolio',c:'micro',d:'Mercado dominado por pocos productores con interdependencia estratégica en precios y cantidades.'},
+  {t:'Dilema del Prisionero',c:'micro',d:'En teoría de juegos: la racionalidad individual conduce a un resultado colectivamente subóptimo.'},
+  {t:'Costo de Oportunidad',c:'micro',d:'Valor de la mejor alternativa a la que se renuncia al tomar una decisión.'},
+  {t:'Valor Presente',c:'fin',d:'Valor actual de un flujo futuro descontado a una tasa que refleja el costo de oportunidad del capital.'},
+  {t:'CAGR',c:'fin',d:'Tasa anual compuesta de crecimiento: la tasa constante que lleva un valor inicial a uno final en N años.'},
+  {t:'Riesgo País',c:'fin',d:'Prima adicional que exigen los inversores por deuda soberana frente a bonos de referencia seguros.'},
+  {t:'Duration',c:'fin',d:'Sensibilidad del precio de un bono ante cambios en la tasa de interés; vida media ponderada de sus flujos.'},
+  {t:'Política Fiscal',c:'pol',d:'Uso del gasto público y los impuestos por parte del Estado para influir en la actividad económica.'},
+  {t:'Política Monetaria',c:'pol',d:'Acciones del banco central sobre la oferta de dinero y las tasas para lograr objetivos macro.'},
+  {t:'Crowding-Out',c:'pol',d:'Desplazamiento de la inversión privada por gasto público financiado con deuda que eleva las tasas.'},
+  {t:'Señoreaje',c:'pol',d:'Ingreso del Estado por emitir moneda: diferencia entre el valor nominal y el costo de producirla.'},
+  {t:'Tipo de Cambio Real',c:'otro',d:'Precio relativo de los bienes de un país frente a otro, ajustado por los niveles de precios.'},
+  {t:'PPA',c:'otro',d:'Paridad del poder adquisitivo: tipo de cambio teórico que iguala el poder de compra entre países.'},
+  {t:'NAIRU',c:'otro',d:'Tasa de desempleo compatible con una inflación estable (non-accelerating inflation rate of unemployment).'},
+  {t:'Balanza de Pagos',c:'otro',d:'Registro de todas las transacciones económicas entre un país y el resto del mundo en un período.'},
+  {t:'Carry Trade',c:'fin',d:'Estrategia de endeudarse en una moneda de tasa baja para invertir en otra de tasa alta.'},
 ];
-function renderGlosario(data){document.getElementById('glosario-grid').innerHTML=data.map(g=>`<div class="glosario-item fade-in"><span class="glosario-tag">${g.tag}</span><div class="glosario-term">${g.term}</div><div class="glosario-def">${g.def}</div></div>`).join('');observeFadeIns();}
-function filterGlosario(){const q=document.getElementById('glosario-search').value.toLowerCase();renderGlosario(glosarioData.filter(g=>g.term.toLowerCase().includes(q)||g.def.toLowerCase().includes(q)||g.tag.toLowerCase().includes(q)));}
-renderGlosario(glosarioData);
+const GLO_TAG = {macro:['tg-macro','Macro'],micro:['tg-micro','Micro'],fin:['tg-fin','Finanzas'],pol:['tg-pol','Política'],otro:['tg-otro','Internacional']};
+function renderGlo(data) {
+  $('glo-grid').innerHTML = data.length ? data.map(g => {
+    const [cls, name] = GLO_TAG[g.c];
+    return `<div class="glo-item card c-electric rv in">
+      <span class="glo-tag ${cls}">${name}</span>
+      <div class="glo-term">${g.t}</div>
+      <div class="glo-def">${g.d}</div>
+    </div>`;
+  }).join('') : `<div class="pf-empty" style="grid-column:1/-1">No hay términos que coincidan con tu búsqueda.</div>`;
+}
+function filterGlo() {
+  const q = $('glo-search').value.toLowerCase();
+  renderGlo(GLO.filter(g => g.t.toLowerCase().includes(q) || g.d.toLowerCase().includes(q)));
+}
 
-/* SCROLL ANIMATIONS */
-function observeFadeIns(){const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:.1});document.querySelectorAll('.fade-in:not(.visible)').forEach(el=>io.observe(el));}
-observeFadeIns();
+/* ════════════════ UI: reveal, progress, nav ════════════════ */
+function observeReveals() {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold: 0.07});
+  document.querySelectorAll('.rv:not(.in)').forEach(el => io.observe(el));
+}
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  $('scroll-progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+}, {passive: true});
+
+const secIds = ['mercados','conversor','comparador','portfolio','alertas','calendario','noticias','analisis','calculadoras','glosario'];
+const navIO = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }
+}), {rootMargin: '-40% 0px -55% 0px'});
+secIds.forEach(id => { const el = $(id); if (el) navIO.observe(el); });
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => $('navlinks').classList.remove('open')));
+
+/* ════════════════ INIT ════════════════ */
+initConverter();
+renderCalendar();
+renderGlo(GLO);
+observeReveals();
+loadFX();
+(async () => {
+  await wakeBackend();
+  loadMarketsAll();
+  loadNews();
+  runCompare();
+})();
 </script>
 </body>
 </html>
